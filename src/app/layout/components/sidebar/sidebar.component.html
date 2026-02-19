@@ -1,0 +1,22 @@
+<div class="card flex">
+    <p-drawer #drawerRef [(visible)]="visible" (visibleChange)="visibleChange.emit($event)">
+        <ng-template #headless>
+            <!-- HEADER -->
+            <div class="p-4 border-bottom-1 surface-border">
+                <h2 class="m-0 text-xl font-semibold">
+                    Control Procesos
+                </h2>
+                <small class="text-color-secondary">
+                    Sistema Empresarial
+                </small>
+            </div>
+            <div class="flex-1 overflow-auto p-1">
+                <p-panelmenu [model]="menu" [multiple]="true" styleClass="w-full" />
+            </div>
+            <div class="flex-1 overflow-auto p-1">
+                <p-panelmenu [model]="temas" [multiple]="true" styleClass="w-full" />
+            </div>
+        </ng-template>
+    </p-drawer>
+
+</div>

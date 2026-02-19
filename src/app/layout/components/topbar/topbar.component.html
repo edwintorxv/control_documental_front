@@ -1,0 +1,13 @@
+<p-menubar [model]="items">
+    <ng-template #start>
+        <p-button (click)="openMenu()" icon="pi pi-bars" />
+    </ng-template>
+    
+        <p-menubar [model]="items">
+        </p-menubar>
+    <ng-template #end>
+        <div class="flex items-center gap-2">
+            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+        </div>
+    </ng-template>
+</p-menubar>

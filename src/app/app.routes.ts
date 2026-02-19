@@ -1,3 +1,16 @@
 import { Routes } from '@angular/router';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { EmpleadoListComponent } from './pages/empleados/empleado-list/empleado-list.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'empleados', component: EmpleadoListComponent }
+    ]
+  }
+];
