@@ -1,40 +1,57 @@
 <div class="card">
-    <p-table
-    #dt1
-        [value]="customers"
-        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-        selectionMode="single"
-        [(selection)]="selectedCustomers"
-        dataKey="id"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        [rows]="5"
-        [paginator]="true"
-        stateStorage="session"
-        stateKey="statedemo-session"
-        >
+    <p-table [value]="[]" #dt1 [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+        selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="5" [paginator]="true"
+        stateStorage="session" stateKey="statedemo-session">
         <ng-template #caption>
             <p-iconfield iconPosition="left">
                 <p-inputicon>
                     <i class="pi pi-search"></i>
                 </p-inputicon>
                 <!--(input)="dt1.filterGlobal($event.target.value, 'contains')"-->
-                <input
-                    pInputText
-                    type="text"
-                    placeholder="Global Search"
-                />
+                <input pInputText type="text" placeholder="Global Search" />
             </p-iconfield>
         </ng-template>
         <ng-template #header>
             <tr>
-                <th pSortableColumn="name" style="width:25%">Name <p-sortIcon field="name" /></th>
-                <th pSortableColumn="country.name" style="width:25%">
-                    Country <p-sortIcon field="country.name" />
+                <th pSortableColumn="nombre">Nombres <p-sortIcon field="name" /></th>
+                <th pSortableColumn="apellido">Apellidos<p-sortIcon field="apellido" /></th>
+                <th pSortableColumn="fechaNacimiento">
+                    Fecha de nacimiento<p-sortIcon field="fechaNacimiento"/>
                 </th>
-                <th pSortableColumn="representative.name" style="width:25%">
-                    Representative <p-sortIcon field="representative.name" />
+                <th pSortableColumn="tipoDocumento">
+                    Tipo de documento <p-sortIcon field="tipoDocumento" />
                 </th>
-                <th pSortableColumn="status" style="width:25%">Status <p-sortIcon field="status" /></th>
+                <th pSortableColumn="numeroIdentificacion">
+                    Numero de identificacion <p-sortIcon field="numeroIdentificacion" />
+                </th>
+                <th pSortableColumn="departamento">
+                    Departamento <p-sortIcon field="departamento" />
+                </th>
+                <th pSortableColumn="ciudad">
+                    Ciudad<p-sortIcon field="ciudad" />
+                </th>
+                <th pSortableColumn="direccionResidencia">
+                    Direccion de residencia <p-sortIcon field="direccionResidencia" />
+                </th>
+                <th pSortableColumn="numeroDeTelefono">
+                    Numero de telefono <p-sortIcon field="numeroDeTelefono" />
+                </th>
+                <th pSortableColumn="nivelAcademico">
+                    Nivel academico <p-sortIcon field="nivelAcademico" />
+                </th>
+                <th pSortableColumn="estadoCivil">
+                    Estado civil <p-sortIcon field="estadoCivil" />
+                </th>
+                <th pSortableColumn="cargo">
+                    Cargo <p-sortIcon field="cargo" />
+                </th>
+                <th pSortableColumn="fechaIngreso">
+                    Fecha de ingreso <p-sortIcon field="fechaIngreso" />
+                </th>
+                <th pSortableColumn="estado">
+                    Estado <p-sortIcon field="estado" />
+                </th>
+                <th pSortableColumn="status">Acciones <p-sortIcon field="status" /></th>
             </tr>
         </ng-template>
     </p-table>
