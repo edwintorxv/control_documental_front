@@ -13,8 +13,7 @@ import { Tag } from 'primeng/tag';
     HttpClientModule,
     InputTextModule,
     IconField,
-    InputIcon,
-    Tag
+    InputIcon
   ],
   providers: [],
   standalone: true,
