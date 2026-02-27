@@ -1,0 +1,39 @@
+.action-card {
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background: var(--surface-card);
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-color);
+}
+
+.action-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.action-card h3 {
+    margin: 0.5rem 0;
+    font-weight: 600;
+}
+
+.action-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+}
+
+:host ::ng-deep .p-frozen-column {
+    font-weight: bold;
+}
+
+:host ::ng-deep .p-datatable-frozen-tbody {
+    font-weight: bold;
+}

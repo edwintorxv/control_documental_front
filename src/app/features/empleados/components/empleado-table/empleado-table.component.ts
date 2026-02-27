@@ -1,31 +1,56 @@
-import { Component, OnInit } from '@angular/core';
-import { TableModule } from 'primeng/table'
-import { HttpClientModule } from '@angular/common/http';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
+import { Dialog } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { Tag } from 'primeng/tag';
+import { MenuModule } from 'primeng/menu';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { Empleado } from '../../models/empleado.model';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-empleado-table',
   imports: [
     TableModule,
-    HttpClientModule,
     InputTextModule,
-    IconField,
-    InputIcon
+    Button,
+    ToolbarModule,
+    MenuModule,
+    Dialog,
+    ReactiveFormsModule
   ],
-  providers: [],
   standalone: true,
   templateUrl: './empleado-table.component.html',
   styleUrl: './empleado-table.component.scss'
 })
-export class EmpleadoTableComponent implements OnInit {
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+export class EmpleadoTableComponent {
+
+  @Input() empleados: Empleado[] = [];
+  @Output() create = new EventEmitter<void>();
+  @Output() edit = new EventEmitter<Empleado>();
+  @Input() searchControl!: FormControl
+
+  onCreateClick() {
+    this.create.emit();
   }
 
+  visible: boolean = false;
+  selectedEmpleado?: Empleado;
+  displayEditDialog: boolean = false;
 
+  showDialog(emp: Empleado) {
+    this.selectedEmpleado = emp;
+    this.visible = true;
+  }
+
+  editarEmpleado() {
+    this.visible = false;
+    if (this.selectedEmpleado) {
+      this.edit.emit(this.selectedEmpleado);
+    }
+  }
 
 }
