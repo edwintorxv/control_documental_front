@@ -1,1 +1,125 @@
-<p>empleado-form-dialog works!</p>
+<!-- <p-toast position="top-right" [baseZIndex]="10000"></p-toast> -->
+<form [formGroup]="empleadoForm" class="fluid" (ngSubmit)="saveEmpleado()">
+
+    <div class="grid">
+
+        <!-- Nombres y Apellidos -->
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombres" formControlName="nombre" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Apellidos" formControlName="apellido" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Documento -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Tipo documento" optionLabel="name" [showClear]="true" appendTo="body"
+                [options]="documentoMaestro" optionLabel="nombre" optionValue="id" formControlName="documentoMaestro">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-id-card"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Numero documento" formControlName="numeroIdentificacion" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Ubicación -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Departamento" [showClear]="true" appendTo="body"
+                [options]="departamentos" optionLabel="nombre" optionValue="id"
+                (onChange)="onDepartamentoChange($event.value)">
+
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Ciudad o municipio" [showClear]="true" appendTo="body"
+                [options]="ciudadMunicipio" optionLabel="nombre" optionValue="id" formControlName="ciudadMunicipio">
+            </p-select>
+        </div>
+
+        <!-- Dirección full width -->
+        <div class="col-12 ">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-map"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Direccion de residencia" formControlName="direccionResidencia" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Fechas -->
+        <div class="col-12 md:col-4">
+            <p-select class="w-full" placeholder="Nivel academico" appendTo="body" [options]="nivelAcademico"
+                optionLabel="nombre" optionValue="id" formControlName="nivelAcademico">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-4 ">
+            <p-datepicker placeholder="Fecha Nacimiento" showIcon iconDisplay="input" appendTo="body"
+                formControlName="fechaNacimiento">
+            </p-datepicker>
+        </div>
+
+
+        <div class="col-12 md:col-4">
+            <p-datepicker placeholder="Fecha ingreso" showIcon iconDisplay="input" appendTo="body"
+                formControlName="fechaIngreso">
+            </p-datepicker>
+        </div>
+
+
+        <!-- Estado civil y Cargo -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Estado civil" appendTo="body" [options]="estadoCivil"
+                optionLabel="nombre" optionValue="id" formControlName="estadoCivil">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Cargo" appendTo="body" [options]="cargo" optionLabel="nombre"
+                optionValue="id" formControlName="cargo">
+            </p-select>
+        </div>
+
+        <!-- Teléfono y Estado -->
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-phone"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Numero de telefono" formControlName="numeroTelefono" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Estado" appendTo="body" [options]="estado" optionLabel="nombre"
+                optionValue="id" formControlName="estado">
+            </p-select>
+        </div>
+
+        <!-- Botón -->
+        <div class="col-12 flex justify-content-center">
+            <p-button label="Crear empleado" icon="pi pi-check" iconPos="right" type="submit"
+                [disabled]="empleadoForm.invalid">
+            </p-button>
+        </div>
+        
+    </div>
+
+</form>

@@ -8,19 +8,19 @@ import { NivelAcademico } from "./nivel-academico.model"
 export interface Empleado {
 
     id: number,
-    nombre: string,
-    apellido: string,
-    fechaNacimiento: String,
-    numeroIdentificacion: string,
-    direccionResidencia: string,
-    numeroTelefono: string,
-    fechaIngreso: string,
+    nombre: string, //Ok
+    apellido: string, //OK
+    fechaNacimiento: String, //Ok
+    documentoMaestro: DocumentoMaestro, //Ok
+    numeroIdentificacion: string, //Ok
+    fechaIngreso: string, //Ok
     fechaRetiro?: string | null,
-    documentoMaestro: DocumentoMaestro,
-    ciudadMunicipio: CiudadMunicipio,
-    nivelAcademico: NivelAcademico,
-    estadoCivil: EstadoCivil,
-    cargo: Cargo,
+    ciudadMunicipio: CiudadMunicipio, //Ok
+    direccionResidencia: string, //Ok
+    numeroTelefono: string,
+    nivelAcademico: NivelAcademico, //Ok
+    estadoCivil: EstadoCivil,//Ok
+    cargo: Cargo, //Ok
     estado: Estado
 
 }

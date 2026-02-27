@@ -1,61 +1,119 @@
 <div class="card">
-    <p-table [value]="[]" #dt1 [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-        selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="5" [paginator]="true"
-        stateStorage="session" stateKey="statedemo-session">
-        <ng-template #caption>
-            <p-iconfield iconPosition="left">
-                <p-inputicon>
-                    <i class="pi pi-search"></i>
-                </p-inputicon>
-                <!--(input)="dt1.filterGlobal($event.target.value, 'contains')"-->
-                <input pInputText type="text" placeholder="Global Search" />
-            </p-iconfield>
-        </ng-template>
-        <ng-template #header>
+    <p-table [value]="empleados" #dt1 selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '75rem' }"
+        [rows]="10" [paginator]="true" [scrollable]="true" scrollHeight="450px">
+
+        <ng-template #header pTemplate="header">
             <tr>
-                <th pSortableColumn="nombre">Nombres <p-sortIcon field="name" /></th>
-                <th pSortableColumn="apellido">Apellidos<p-sortIcon field="apellido" /></th>
-                <th pSortableColumn="fechaNacimiento">
-                    Fecha de nacimiento<p-sortIcon field="fechaNacimiento"/>
+                <th pSortableColumn="nombre" style="min-width:200px" pFrozenColumn>Nombres <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="tipoDocumento">
-                    Tipo de documento <p-sortIcon field="tipoDocumento" />
+                <th pSortableColumn="apellido" style="min-width:200px" pFrozenColumn>Apellidos<p-sortIcon
+                        field="apellido" /></th>
+                <th pSortableColumn="fechaNacimiento" style="min-width:150px">
+                    Fecha de nacimiento<p-sortIcon field="fechaNacimiento" />
                 </th>
-                <th pSortableColumn="numeroIdentificacion">
-                    Numero de identificacion <p-sortIcon field="numeroIdentificacion" />
+                <th pSortableColumn="documentoMaestro.nombre" style="min-width:250px">
+                    Tipo documento <p-sortIcon field="documentoMaestro.nombre" />
                 </th>
-                <th pSortableColumn="departamento">
-                    Departamento <p-sortIcon field="departamento" />
+                <th pSortableColumn="numeroIdentificacion" style="min-width:250px">
+                    No. identificacion <p-sortIcon field="numeroIdentificacion" />
                 </th>
-                <th pSortableColumn="ciudad">
-                    Ciudad<p-sortIcon field="ciudad" />
+                <th pSortableColumn="ciudadMunicipio.departamento.nombre" style="min-width:150px">
+                    Departamento <p-sortIcon field="ciudadMunicipio.departamento.nombre" />
                 </th>
-                <th pSortableColumn="direccionResidencia">
-                    Direccion de residencia <p-sortIcon field="direccionResidencia" />
+                <th pSortableColumn="ciudadMunicipio.nombre" style="min-width:150px">
+                    Ciudad<p-sortIcon field="ciudadMunicipio.nombre" />
                 </th>
-                <th pSortableColumn="numeroDeTelefono">
-                    Numero de telefono <p-sortIcon field="numeroDeTelefono" />
+                <th pSortableColumn="direccionResidencia" style="min-width:250px">
+                    Direccion residencia <p-sortIcon field="direccionResidencia" />
                 </th>
-                <th pSortableColumn="nivelAcademico">
-                    Nivel academico <p-sortIcon field="nivelAcademico" />
+                <th pSortableColumn="numeroDeTelefono" style="min-width:150px">
+                    No. telefono <p-sortIcon field="numeroDeTelefono" />
                 </th>
-                <th pSortableColumn="estadoCivil">
-                    Estado civil <p-sortIcon field="estadoCivil" />
+                <th pSortableColumn="nivelAcademico.nombre" style="min-width:250px">
+                    Nivel academico <p-sortIcon field="nivelAcademico.nombre" />
                 </th>
-                <th pSortableColumn="cargo">
-                    Cargo <p-sortIcon field="cargo" />
+                <th pSortableColumn="estadoCivil.nombre" style="min-width:150px">
+                    Estado civil <p-sortIcon field="estadoCivil.nombre" />
                 </th>
-                <th pSortableColumn="fechaIngreso">
+                <th pSortableColumn="cargo.nombre" style="min-width:200px">
+                    Cargo <p-sortIcon field="cargo.nombre" />
+                </th>
+                <th pSortableColumn="fechaIngreso" style="min-width:150px">
                     Fecha de ingreso <p-sortIcon field="fechaIngreso" />
                 </th>
-                <th pSortableColumn="estado">
-                    Estado <p-sortIcon field="estado" />
+                <th pSortableColumn="estado.nombre" style="min-width:150px">
+                    Estado <p-sortIcon field="estado.nombre" />
                 </th>
-                <th pSortableColumn="status">Acciones <p-sortIcon field="status" /></th>
+                <th pSortableColumn="status" style="min-width:150px">Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-empleado>
+            <tr>
+                <td pFrozenColumn>{{ empleado.nombre }}</td>
+                <td pFrozenColumn>{{ empleado.apellido }}</td>
+                <td>{{ empleado.fechaNacimiento }}</td>
+                <td>{{ empleado.documentoMaestro?.nombre }}</td>
+                <td>{{ empleado.numeroIdentificacion }}</td>
+                <td>{{ empleado.ciudadMunicipio?.departamento?.nombre }}</td>
+                <td>{{ empleado.ciudadMunicipio?.nombre }}</td>
+                <td>{{ empleado.direccionResidencia }}</td>
+                <td>{{ empleado.numeroTelefono }}</td>
+                <td>{{ empleado.nivelAcademico?.nombre }}</td>
+                <td>{{ empleado.estadoCivil?.nombre }}</td>
+                <td>{{ empleado.cargo?.nombre }}</td>
+                <td>{{ empleado.fechaIngreso }}</td>
+                <td>{{ empleado.estado?.nombre }}</td>
+                <td>
+                    <p-button icon="pi pi-cog" severity="warn" (click)="showDialog(empleado)">
+                    </p-button>
+                </td>
             </tr>
         </ng-template>
     </p-table>
+
+    <p-dialog header="Acciones del empleado" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+        [breakpoints]="{ '768px': '95vw' }" contentStyle="{ padding: '2rem' }">
+
+        <div class="grid">
+
+            <!-- Editar -->
+            <div class="col-12 md:col-6">
+                <div class="action-card" (click)="editarEmpleado()">
+                    <i class="pi pi-pencil action-icon text-orange-500"></i>
+                    <h3>Editar datos</h3>
+                    <p>Modificar información general del empleado.</p>
+                </div>
+            </div>
+
+            <!-- Familiar -->
+            <div class="col-12 md:col-6">
+                <div class="action-card"> <!-- (click)="crearFamiliar()" -->
+                    <i class="pi pi-users action-icon text-blue-500"></i>
+                    <h3>Familiares</h3>
+                    <p>Agregar o administrar familiares asociados.</p>
+                </div>
+            </div>
+
+            <!-- Experiencia -->
+            <div class="col-12 md:col-6">
+                <div class="action-card"> <!-- (click)="agregarExperiencia()" -->
+                    <i class="pi pi-briefcase action-icon text-red-500"></i>
+                    <h3>Experiencia</h3>
+                    <p>Registrar experiencia laboral previa.</p>
+                </div>
+            </div>
+
+            <!-- Estudios -->
+            <div class="col-12 md:col-6">
+                <div class="action-card"> <!-- (click)="agregarEstudios()" -->
+                    <i class="pi pi-book action-icon text-purple-500"></i>
+                    <h3>Estudios</h3>
+                    <p>Agregar formación académica del empleado.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </p-dialog>
+
 </div>
-
-
-<p>empleado-table works!</p>
