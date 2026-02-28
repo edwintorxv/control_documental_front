@@ -1,4 +1,7 @@
-<div class="card">
+<p-card class="card">
+    <!-- <p-card>
+
+    </p-card> -->
     <p-table [value]="empleados" #dt1 selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '75rem' }"
         [rows]="10" [paginator]="true" [scrollable]="true" scrollHeight="450px">
 
@@ -87,7 +90,7 @@
 
             <!-- Familiar -->
             <div class="col-12 md:col-6">
-                <div class="action-card"> <!-- (click)="crearFamiliar()" -->
+                <div class="action-card" (click)="abrirFamiliares()"> <!--  -->
                     <i class="pi pi-users action-icon text-blue-500"></i>
                     <h3>Familiares</h3>
                     <p>Agregar o administrar familiares asociados.</p>
@@ -116,4 +119,4 @@
 
     </p-dialog>
 
-</div>
+</p-card>

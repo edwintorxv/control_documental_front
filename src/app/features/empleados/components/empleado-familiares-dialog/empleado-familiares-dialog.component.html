@@ -1,1 +1,68 @@
-<p>empleado-familiares-dialog works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">  <!--  -->
+    <div class="grid">
+        <!-- Nombres y Apellidos -->
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombres" formControlName="nombre" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Apellidos" formControlName="apellido" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Documento -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Tipo documento" optionLabel="name" [showClear]="true" appendTo="body"
+                [options]="documentoMaestro" optionLabel="nombre" optionValue="id" formControlName="documentoMaestro">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-id-card"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Numero documento" formControlName="numeroIdentificacion" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Parentesco -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Parentesco" optionLabel="name" [showClear]="true" appendTo="body"
+                [options]="tiposFamiliares" optionLabel="nombre" optionValue="id" formControlName="tipoFamiliar">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-phone"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Numero de telefono" formControlName="numeroTelefono" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12">
+            <div class="field-checkbox">
+                <p-checkbox id="viveConEmpleado" formControlName="viveConEmpleado" [binary]="true"></p-checkbox>
+                <label for="viveConEmpleado">¿Vive con el empleado?</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="flex justify-content-center gap-2">
+        <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="onCancel()"
+            class="p-button-text"></p-button>
+        <p-button type="submit" label="Guardar" icon="pi pi-check" ></p-button>
+    </div>
+</form>

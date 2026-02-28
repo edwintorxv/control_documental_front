@@ -39,7 +39,6 @@ import { mergeAll } from 'rxjs';
     InputGroupModule,
     InputGroupAddonModule,
     SelectModule,
-    InputTextModule,
     InputNumberModule,
     DatePickerModule,
     FluidModule,
@@ -293,7 +292,6 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   }
 
   private handleError(error: any) {
-    console.error('Error en la petición:', error);
     if (error.error && error.error.metadata && error.error.metadata.length > 0) {
       const metaData = error.error.metadata[0];
       this.messageService.add({
@@ -316,7 +314,6 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
 
 
     if (metaData?.codigo === "00") {
-      console.log('Meta data:', metaData)
 
       this.messageService.add({
         severity: 'success',
@@ -328,7 +325,6 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
 
     } else {
 
-      console.log('Error de creacion: ', metaData)
       this.messageService.add({
         severity: 'warn',
         summary: metaData?.tipo,

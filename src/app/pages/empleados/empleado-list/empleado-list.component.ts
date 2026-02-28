@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
 
 import { EmpleadoFormDialogComponent } from '../../../features/empleados/components/empleado-form-dialog/empleado-form-dialog.component';
 import { EmpleadoTableComponent } from '../../../features/empleados/components/empleado-table/empleado-table.component';
@@ -10,9 +10,8 @@ import { EmpleadoTableComponent } from '../../../features/empleados/components/e
 import { Empleado } from '../../../features/empleados/models/empleado.model';
 import { EmpleadoService } from '../../../features/empleados/services/empleado.service';
 
-import { InputTextModule } from 'primeng/inputtext';
-//import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-empleado-list',
