@@ -7,7 +7,8 @@ import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Empleado } from '../../models/empleado.model';
-import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
 
 
 @Component({
@@ -19,7 +20,8 @@ import { MessageService } from 'primeng/api';
     ToolbarModule,
     MenuModule,
     Dialog,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CardModule
   ],
   standalone: true,
   templateUrl: './empleado-table.component.html',
@@ -27,6 +29,8 @@ import { MessageService } from 'primeng/api';
 })
 
 export class EmpleadoTableComponent {
+
+  constructor(private router: Router) { }
 
   @Input() empleados: Empleado[] = [];
   @Output() create = new EventEmitter<void>();
@@ -50,6 +54,16 @@ export class EmpleadoTableComponent {
     this.visible = false;
     if (this.selectedEmpleado) {
       this.edit.emit(this.selectedEmpleado);
+    }
+  }
+
+  abrirFamiliares() {
+    // Cierra el diálogo de acciones
+    this.visible = false;
+
+    // Navega a la ruta de familiares pasando el id del empleado
+    if (this.selectedEmpleado?.id) {
+      this.router.navigate(['/empleados', this.selectedEmpleado.id, 'familiares']);
     }
   }
 
