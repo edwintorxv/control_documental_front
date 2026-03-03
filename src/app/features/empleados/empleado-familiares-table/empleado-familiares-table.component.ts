@@ -38,6 +38,7 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
   empleadoFamiliares: EmpleadoFamiliar[] = [];
   displayDialog = false;
   familiarEdit?: EmpleadoFamiliar; // para edición
+  cedulaBloqueo: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +59,14 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
       message: `¿Está seguro de eliminar a: ${familiar.nombre} ${familiar.apellido}?`,
       header: 'Confirmar eliminación',
       icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: 'No',
+        severity: 'success'
+      },
+      acceptButtonProps: {
+        label: 'Si',
+        severity: 'danger',
+      },
       accept: () => {
         this.deleteFamiliar(familiar.id!);
       }
@@ -67,11 +76,12 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
   // método que llama al servicio
   deleteFamiliar(id: number) {
     this.empleadoFamiliarService.delete(id).subscribe({
-      next: (response) => {
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Registro eliminado',
-          detail: 'Se ha eliminado el registro del familiar'
+          detail: 'Se ha eliminado el registro del familiar',
+          life: 4000
         });
         this.loadFamiliares();
       },
@@ -85,20 +95,20 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
         this.empleadoFamiliares = data;
       },
       error: (err) => {
-        // Si es 404 o no hay datos, mostrar mensaje
         const metadata = err.error?.metadata?.[0];
         if (metadata) {
           this.messageService.add({
             severity: 'warn',
             summary: metadata.descripcion,
             detail: 'Aún no se han creado familiares para este empleado',
-            life: 5000
+            life: 4000
           });
         } else {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'No se pudieron cargar los familiares'
+            detail: 'No se pudieron cargar los familiares',
+            life: 4000
           });
         }
       }
@@ -113,6 +123,7 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
   openEditDialog(familiar: EmpleadoFamiliar) {
     this.familiarEdit = familiar; // modo edición
     this.displayDialog = true;
+    this.cedulaBloqueo = true;
   }
 
   onDialogHide() {
@@ -128,7 +139,8 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Actualizado',
-            detail: 'Familiar actualizado correctamente'
+            detail: 'Familiar actualizado correctamente',
+            life: 4000
           });
           this.loadFamiliares();
           this.onDialogHide();
@@ -142,7 +154,8 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Creado',
-            detail: 'Familiar creado correctamente'
+            detail: 'Familiar creado correctamente',
+            life: 4000
           });
           this.loadFamiliares();
           this.onDialogHide();

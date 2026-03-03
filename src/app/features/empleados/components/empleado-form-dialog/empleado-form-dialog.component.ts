@@ -26,8 +26,6 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { EstadoCivilService } from '../../services/estado-civil.service';
 import { EstadoService } from '../../services/estado.service';
 import { NivelAcademicoService } from '../../services/nivel-academico.service';
-//import { ToastModule } from 'primeng/toast';
-import { mergeAll } from 'rxjs';
 
 @Component({
   selector: 'app-empleado-form-dialog',
@@ -44,7 +42,6 @@ import { mergeAll } from 'rxjs';
     FluidModule,
     ButtonModule,
     ReactiveFormsModule
-    //ToastModule
   ],
   templateUrl: './empleado-form-dialog.component.html',
   styleUrl: './empleado-form-dialog.component.scss'

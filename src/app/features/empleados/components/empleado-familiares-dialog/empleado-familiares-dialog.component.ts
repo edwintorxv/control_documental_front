@@ -74,6 +74,7 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
   private patchFormValues(): void {
     if (!this.familiar) {
       this.form.reset();
+      this.form.get('numeroIdentificacion')?.enable(); // 👈 modo creación
       return;
     }
     this.form.patchValue({
@@ -85,8 +86,8 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       tipoFamiliar: this.familiar.tipoFamiliar?.id,
       viveConEmpleado: this.familiar.viveConEmpleado
     });
+    this.form.get('numeroIdentificacion')?.disable(); // 👈 modo edición
   }
-
 
   buildForm(): void {
     this.form = this.fb.group({
@@ -128,7 +129,9 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       return;
     }
 
-    const formValue = this.form.value;
+    const formValue = this.form.getRawValue();
+
+    //const formValue = this.form.value;
     const familiarData: any = {
       nombre: formValue.nombre,
       apellido: formValue.apellido,
@@ -139,7 +142,6 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       tipoFamiliar: { id: formValue.tipoFamiliar },
       empleado: { id: this.empleadoId }
     };
-
     // Si estamos editando, agregamos el id del familiar
     if (this.familiar && this.familiar.id) {
       familiarData.id = this.familiar.id;
@@ -153,4 +155,3 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
   }
 
 }
-
