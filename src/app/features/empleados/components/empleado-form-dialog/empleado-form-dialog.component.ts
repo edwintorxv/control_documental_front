@@ -26,6 +26,7 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { EstadoCivilService } from '../../services/estado-civil.service';
 import { EstadoService } from '../../services/estado.service';
 import { NivelAcademicoService } from '../../services/nivel-academico.service';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-empleado-form-dialog',
@@ -216,13 +217,13 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   buildForm() {
     this.empleadoForm = this.formBuilder.group({
 
-      nombre: ['', [Validators.required, Validators.maxLength(50)]],
-      apellido: ['', [Validators.required, Validators.maxLength(50)]],
+      nombre: ['', [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
+      apellido: ['', [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
       documentoMaestro: [null, [Validators.required]],
-      numeroIdentificacion: ['', [Validators.required, Validators.maxLength(10)]],
+      numeroIdentificacion: ['', [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
       ciudadMunicipio: [null, [Validators.required]],
-      direccionResidencia: [null, [Validators.required, Validators.maxLength(100)]],
-      numeroTelefono: [null, [Validators.required, Validators.maxLength(10)]],
+      direccionResidencia: [null, [Validators.required, Validators.maxLength(100), CustomValidators.direcciones]],
+      numeroTelefono: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
       nivelAcademico: [null, [Validators.required]],
       estadoCivil: [null, [Validators.required]],
       cargo: [null, [Validators.required]],

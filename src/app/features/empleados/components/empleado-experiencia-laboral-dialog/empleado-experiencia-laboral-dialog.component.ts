@@ -12,6 +12,7 @@ import { SelectModule } from 'primeng/select';
 import { Empleado } from '../../models/empleado.model';
 import { MessageService } from 'primeng/api';
 import { EmpleadoExperienciaLaboral } from '../../models/empleado-experiencia-laboral.model';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-empleado-experiencia-laboral-dialog',
@@ -86,11 +87,11 @@ export class EmpleadoExperienciaLaboralDialogComponent implements OnInit {
 
   buildForm(): void {
     this.empleadoExperienciaForm = this.formBuilder.group({
-      nombreEmpresa: [null, [Validators.required, Validators.maxLength(100)]],
-      direccionEmpresa: [null, [Validators.required, Validators.maxLength(100)]],
-      telefono: [null, [Validators.required, Validators.maxLength(10)]],
-      nombreJefeDirecto: [null, [Validators.required, Validators.maxLength(100)]],
-      cargoDesempenio: [null, [Validators.required, Validators.maxLength(50)]],
+      nombreEmpresa: [null, [Validators.required, Validators.maxLength(100), CustomValidators.soloLetras]],
+      direccionEmpresa: [null, [Validators.required, Validators.maxLength(100), CustomValidators.direcciones]],
+      telefono: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      nombreJefeDirecto: [null, [Validators.required, Validators.maxLength(100), CustomValidators.soloLetras]],
+      cargoDesempenio: [null, [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
       fechaIngreso: [null, [Validators.required]],
       fechaRetiro: [null, [Validators.required]]
     });

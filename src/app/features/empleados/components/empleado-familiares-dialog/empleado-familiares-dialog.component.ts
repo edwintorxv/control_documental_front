@@ -14,6 +14,7 @@ import { EmpleadoFamiliar } from '../../models/empleado-familiar.model';
 import { TipoFamiliar } from '../../models/tipo-familiar.model';
 import { TipoFamiliarService } from '../../services/tipo-familiar.service';
 import { SelectModule } from 'primeng/select';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-empleado-familiares-dialog',
@@ -91,11 +92,11 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
 
   buildForm(): void {
     this.form = this.fb.group({
-      nombre: [null, [Validators.required, Validators.maxLength(50)]],
-      apellido: [null, [Validators.required, Validators.maxLength(50)]],
+      nombre: [null, [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
+      apellido: [null, [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
       documentoMaestro: [null, [Validators.required]],
-      numeroIdentificacion: [null, [Validators.required, Validators.maxLength(10)]],
-      numeroTelefono: [null, [Validators.required, Validators.maxLength(10)]],
+      numeroIdentificacion: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      numeroTelefono: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
       tipoFamiliar: [null, [Validators.required]],
       viveConEmpleado: [false]
     });
