@@ -86,13 +86,13 @@ export class EmpleadoExperienciaLaboralDialogComponent implements OnInit {
 
   buildForm(): void {
     this.empleadoExperienciaForm = this.formBuilder.group({
-      nombreEmpresa: [null, Validators.required],
-      direccionEmpresa: [null, Validators.required],
-      telefono: [null, Validators.required],
-      nombreJefeDirecto: [null, Validators.required],
-      cargoDesempenio: [null, Validators.required],
-      fechaIngreso: [null, Validators.required],
-      fechaRetiro: [null, Validators.required]
+      nombreEmpresa: [null, [Validators.required, Validators.maxLength(100)]],
+      direccionEmpresa: [null, [Validators.required, Validators.maxLength(100)]],
+      telefono: [null, [Validators.required, Validators.maxLength(10)]],
+      nombreJefeDirecto: [null, [Validators.required, Validators.maxLength(100)]],
+      cargoDesempenio: [null, [Validators.required, Validators.maxLength(50)]],
+      fechaIngreso: [null, [Validators.required]],
+      fechaRetiro: [null, [Validators.required]]
     });
   }
 

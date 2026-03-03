@@ -36,7 +36,6 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
   displayDialog = false;
   laboralEdit?: EmpleadoExperienciaLaboral; // para edición
 
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,

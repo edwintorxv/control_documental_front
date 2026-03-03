@@ -91,12 +91,12 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
 
   buildForm(): void {
     this.form = this.fb.group({
-      nombre: [null, Validators.required],
-      apellido: [null, Validators.required],
-      documentoMaestro: [null, Validators.required],
-      numeroIdentificacion: [null, Validators.required],
-      numeroTelefono: [null, Validators.required],
-      tipoFamiliar: [null, Validators.required],
+      nombre: [null, [Validators.required, Validators.maxLength(50)]],
+      apellido: [null, [Validators.required, Validators.maxLength(50)]],
+      documentoMaestro: [null, [Validators.required]],
+      numeroIdentificacion: [null, [Validators.required, Validators.maxLength(10)]],
+      numeroTelefono: [null, [Validators.required, Validators.maxLength(10)]],
+      tipoFamiliar: [null, [Validators.required]],
       viveConEmpleado: [false]
     });
   }
@@ -130,8 +130,6 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
     }
 
     const formValue = this.form.getRawValue();
-
-    //const formValue = this.form.value;
     const familiarData: any = {
       nombre: formValue.nombre,
       apellido: formValue.apellido,
@@ -142,7 +140,6 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       tipoFamiliar: { id: formValue.tipoFamiliar },
       empleado: { id: this.empleadoId }
     };
-    // Si estamos editando, agregamos el id del familiar
     if (this.familiar && this.familiar.id) {
       familiarData.id = this.familiar.id;
     }
