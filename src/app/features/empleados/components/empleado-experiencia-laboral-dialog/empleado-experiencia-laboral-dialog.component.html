@@ -1,0 +1,73 @@
+<form [formGroup]="empleadoExperienciaForm" (ngSubmit)="onSubmit()">
+    <div class="grid">
+        <!-- Nombres y Apellidos -->
+        <div class="col-12 md:col-12">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-building"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombre empresa" formControlName="nombreEmpresa" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-map"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Direccion" formControlName="direccionEmpresa" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Documento -->
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-phone"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Telefono" formControlName="telefono" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-id-card"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombre jefe directo" formControlName="nombreJefeDirecto" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Ubicación -->
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-briefcase"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Cargo dedempeñado" formControlName="cargoDesempenio" />
+            </p-inputgroup>
+        </div>
+
+        <!-- Fechas -->
+        <div class="col-12 md:col-4 ">
+            <p-datepicker placeholder="Fecha ingreso" showIcon iconDisplay="input" appendTo="body"
+                formControlName="fechaIngreso">
+            </p-datepicker>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <p-datepicker placeholder="Fecha retiro" showIcon iconDisplay="input" appendTo="body"
+                formControlName="fechaRetiro">
+            </p-datepicker>
+        </div>
+
+    </div>
+
+    <!-- Botón -->
+    <div class="flex justify-content-center gap-2">
+        <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="onCancel()"
+            class="p-button-text"></p-button>
+        <p-button type="submit" label="Guardar" icon="pi pi-check"></p-button>
+    </div>
+
+</form>
