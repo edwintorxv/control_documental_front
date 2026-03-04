@@ -77,4 +77,14 @@ export class EmpleadoTableComponent {
     }
   }
 
+  agregarDocumentosEmpleado() {
+    // Cierra el diálogo de acciones
+    this.visible = false;
+
+    // Navega a la ruta de experiencia laboral pasando el id del empleado
+    if (this.selectedEmpleado?.id) {
+      this.router.navigate(['/empleados', this.selectedEmpleado.id, 'documentos']);
+    }
+  }
+
 }

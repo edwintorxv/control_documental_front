@@ -114,7 +114,7 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
   }
 
   loadDocumentos(): void {
-    this.documentoMaestroService.getDocumentoMaestroById(1).subscribe({
+    this.documentoMaestroService.getDocumentoMaestroById([1]).subscribe({
       next: (data) => this.documentoMaestro = data,
       error: () => this.messageService.add({
         severity: 'error',
@@ -141,6 +141,7 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       tipoFamiliar: { id: formValue.tipoFamiliar },
       empleado: { id: this.empleadoId }
     };
+    
     if (this.familiar && this.familiar.id) {
       familiarData.id = this.familiar.id;
     }

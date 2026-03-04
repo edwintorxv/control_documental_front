@@ -15,7 +15,7 @@ export class DocumentoMaestroService {
 
     constructor(private http: HttpClient) { }
 
-    getDocumentoMaestroById(id: number): Observable<DocumentoMaestro[]> {
+    getDocumentoMaestroById(id: number[]): Observable<DocumentoMaestro[]> {
 
         return this.http
             .get<DocumentoMaestroResponseWraper>(`${this.API_URL}/${id}`)

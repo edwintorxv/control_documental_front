@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -9,10 +9,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { Empleado } from '../../models/empleado.model';
-import { MessageService } from 'primeng/api';
-import { EmpleadoExperienciaLaboral } from '../../models/empleado-experiencia-laboral.model';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { EmpleadoExperienciaLaboral } from '../../models/empleado-experiencia-laboral.model';
 
 @Component({
   selector: 'app-empleado-experiencia-laboral-dialog',
@@ -57,7 +55,6 @@ export class EmpleadoExperienciaLaboralDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -99,14 +96,11 @@ export class EmpleadoExperienciaLaboralDialogComponent implements OnInit {
 
   onSubmit(): void {
 
-    console.log('Submit ejecutado');
-
     if (this.empleadoExperienciaForm.invalid) {
-      console.log('Formulario inválido', this.empleadoExperienciaForm);
       this.empleadoExperienciaForm.markAllAsTouched();
       return;
     }
-    console.log('Formulario válido', this.empleadoExperienciaForm.value);
+
     const formValue = this.empleadoExperienciaForm.value;
     const experienciaLaboralData: any = {
       nombreEmpresa: formValue.nombreEmpresa,
@@ -123,7 +117,6 @@ export class EmpleadoExperienciaLaboralDialogComponent implements OnInit {
     if (this.experienciaLaboral && this.experienciaLaboral.id) {
       experienciaLaboralData.id = this.experienciaLaboral.id;
 
-      console.log('Cargando', this.experienciaLaboral && this.experienciaLaboral.id)
     }
 
     this.saved.emit(experienciaLaboralData);

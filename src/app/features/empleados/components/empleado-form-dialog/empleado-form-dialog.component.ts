@@ -155,7 +155,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   }
 
   loadDocumentoMaestro() {
-    this.documentoMaestroService.getDocumentoMaestroById(1)
+    this.documentoMaestroService.getDocumentoMaestroById([1])
       .subscribe({
         next: (data) => {
           this.documentoMaestro = data;
