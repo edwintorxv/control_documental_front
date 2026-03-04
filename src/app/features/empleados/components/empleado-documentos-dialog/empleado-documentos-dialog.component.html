@@ -1,1 +1,34 @@
+<form [formGroup]="empleadoDocumentoForm" (ngSubmit)="onSubmit()"> <!--   -->
+    <div class="grid">
+
+        <!-- Documento -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Tipo documento" optionLabel="name" [showClear]="true" appendTo="body"
+                [options]="documentoMaestro" optionLabel="nombre" optionValue="id" formControlName="documentoMaestro">
+                <!--  -->
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-datepicker placeholder="Fecha Fecha inicial" showIcon iconDisplay="input" appendTo="body" formControlName="fechaInicial">
+            </p-datepicker> <!--  -->
+        </div>
+
+        <div class="col-12 flex justify-content-left">
+            <p-fileupload #fu mode="basic" chooseLabel="Selecionar" chooseIcon="pi pi-upload" name="demo[]"
+                accept="image/*" /> <!-- maxFileSize="1000000" (onUpload)="onUpload($event)" -->
+        </div>
+
+        <!-- Botón -->
+        <div class="col-12 flex justify-content-center">
+            <p-button label="Guardar datos" icon="pi pi-check" iconPos="right" type="submit"
+                > <!-- [disabled]="empleadoForm.invalid" -->
+            </p-button>
+        </div>
+
+
+
+    </div>
+
+</form>
 <p>empleado-documentos-dialog works!</p>

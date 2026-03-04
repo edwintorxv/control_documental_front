@@ -36,7 +36,6 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
   displayDialog = false;
   laboralEdit?: EmpleadoExperienciaLaboral; // para edición
 
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -64,16 +63,13 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
             });
           }
         }
-
         this.empleadoExperienciaLaboral = respuesta.empleadoLaboralResponse.lstEmpleadoLaboral;
-
       },
       error: (err) => {
-        console.error('Error en la petición:', err);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los familiares',
+          detail: 'No se pudieron cargar los datos',
           life: 4000
         });
       }
@@ -92,12 +88,10 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
 
   openEditDialog(experiencaLaboral: EmpleadoExperienciaLaboral) {
     this.laboralEdit = experiencaLaboral;
-    console.log('intenta editar:', this.laboralEdit.id)
     this.displayDialog = true;
   }
 
   onSaved(experienciaLaboralData: any) {
-    console.log('On saved')
     if (this.laboralEdit) {
       // Actualizar
       this.empleadoExperienciaLaboralService.putExperienciaLaboral(this.laboralEdit.id!, experienciaLaboralData).subscribe({
@@ -116,7 +110,6 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
       // Crear
       this.empleadoExperienciaLaboralService.postExperienciaLaboral(experienciaLaboralData).subscribe({
         next: (response) => {
-          console.log('Respuesta al crear: ', response)
           this.messageService.add({
             severity: 'success',
             summary: 'Creado',
@@ -133,7 +126,6 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
   }
 
   handleError(err: any) {
-    console.error('Error completo:', err); // Para depurar
     const metadata = err.error?.metadata?.[0];
     this.messageService.add({
       severity: 'error',
@@ -176,6 +168,7 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
       error: (err) => this.handleError(err)
     });
   }
+
   onCancelled() {
     this.onDialogHide();
   }

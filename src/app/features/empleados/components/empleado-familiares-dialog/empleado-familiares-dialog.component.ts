@@ -14,6 +14,7 @@ import { EmpleadoFamiliar } from '../../models/empleado-familiar.model';
 import { TipoFamiliar } from '../../models/tipo-familiar.model';
 import { TipoFamiliarService } from '../../services/tipo-familiar.service';
 import { SelectModule } from 'primeng/select';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-empleado-familiares-dialog',
@@ -91,12 +92,12 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
 
   buildForm(): void {
     this.form = this.fb.group({
-      nombre: [null, Validators.required],
-      apellido: [null, Validators.required],
-      documentoMaestro: [null, Validators.required],
-      numeroIdentificacion: [null, Validators.required],
-      numeroTelefono: [null, Validators.required],
-      tipoFamiliar: [null, Validators.required],
+      nombre: [null, [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
+      apellido: [null, [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
+      documentoMaestro: [null, [Validators.required]],
+      numeroIdentificacion: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      numeroTelefono: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      tipoFamiliar: [null, [Validators.required]],
       viveConEmpleado: [false]
     });
   }
@@ -113,7 +114,7 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
   }
 
   loadDocumentos(): void {
-    this.documentoMaestroService.getDocumentoMaestroById(1).subscribe({
+    this.documentoMaestroService.getDocumentoMaestroById([1]).subscribe({
       next: (data) => this.documentoMaestro = data,
       error: () => this.messageService.add({
         severity: 'error',
@@ -130,8 +131,6 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
     }
 
     const formValue = this.form.getRawValue();
-
-    //const formValue = this.form.value;
     const familiarData: any = {
       nombre: formValue.nombre,
       apellido: formValue.apellido,
@@ -142,7 +141,7 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       tipoFamiliar: { id: formValue.tipoFamiliar },
       empleado: { id: this.empleadoId }
     };
-    // Si estamos editando, agregamos el id del familiar
+    
     if (this.familiar && this.familiar.id) {
       familiarData.id = this.familiar.id;
     }

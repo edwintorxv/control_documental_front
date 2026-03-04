@@ -26,6 +26,7 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { EstadoCivilService } from '../../services/estado-civil.service';
 import { EstadoService } from '../../services/estado.service';
 import { NivelAcademicoService } from '../../services/nivel-academico.service';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-empleado-form-dialog',
@@ -110,6 +111,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
 
     if (!this.empleado) {
       this.empleadoForm.reset();
+      this.empleadoForm.get('numeroIdentificacion')?.enable(); // 👈 modo creación
     }
 
     // Si cambia a modo crear
@@ -119,18 +121,14 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-
     this.buildForm();
-
     this.loadDepartamento();
     this.loadDocumentoMaestro();
     this.loadEstadoCivil();
     this.loadCargo();
     this.loadEstado();
     this.loadNivelAcademico();
-
   }
-
 
   loadDepartamento() {
     this.departamentoService.getAll().subscribe({
@@ -157,7 +155,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   }
 
   loadDocumentoMaestro() {
-    this.documentoMaestroService.getDocumentoMaestroById(1)
+    this.documentoMaestroService.getDocumentoMaestroById([1])
       .subscribe({
         next: (data) => {
           this.documentoMaestro = data;
@@ -216,23 +214,22 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
       })
   }
 
-
   buildForm() {
     this.empleadoForm = this.formBuilder.group({
 
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      documentoMaestro: [null, Validators.required],
-      numeroIdentificacion: ['', Validators.required],
-      ciudadMunicipio: [null, Validators.required],
-      direccionResidencia: [null, Validators.required],
-      numeroTelefono: [null, Validators.required],
-      nivelAcademico: [null, Validators.required],
-      estadoCivil: [null, Validators.required],
-      cargo: [null, Validators.required],
+      nombre: ['', [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
+      apellido: ['', [Validators.required, Validators.maxLength(50), CustomValidators.soloLetras]],
+      documentoMaestro: [null, [Validators.required]],
+      numeroIdentificacion: ['', [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      ciudadMunicipio: [null, [Validators.required]],
+      direccionResidencia: [null, [Validators.required, Validators.maxLength(100), CustomValidators.direcciones]],
+      numeroTelefono: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      nivelAcademico: [null, [Validators.required]],
+      estadoCivil: [null, [Validators.required]],
+      cargo: [null, [Validators.required]],
       estado: [null, Validators.required],
-      fechaNacimiento: [null, Validators.required],
-      fechaIngreso: [null, Validators.required],
+      fechaNacimiento: [null, [Validators.required]],
+      fechaIngreso: [null, [Validators.required]],
       fechaRetiro: [null]
 
     });
@@ -245,7 +242,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
       return;
     }
 
-    const formValue = this.empleadoForm.value;
+    const formValue = this.empleadoForm.getRawValue();
 
     const request = {
       nombre: formValue.nombre,
@@ -266,8 +263,9 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
     };
 
     if (this.empleado) {
-      this.updateEmpleado(request);
+      this.updateEmpleado(request)
     } else {
+      this.empleadoForm.get('numeroIdentificacion')?.enable();
       this.createEmpleado(request);
     }
   }
@@ -309,7 +307,6 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
 
     const metaData = response.metadata?.[0];
 
-
     if (metaData?.codigo === "00") {
 
       this.messageService.add({
@@ -348,7 +345,10 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
       estadoCivil: this.empleado?.estadoCivil?.id,
       cargo: this.empleado?.cargo?.id,
       estado: this.empleado?.estado?.id
+
     });
+
+    this.empleadoForm.get('numeroIdentificacion')?.disable();
 
     if (this.empleado?.ciudadMunicipio?.departamento?.id) {
       this.onDepartamentoChange(

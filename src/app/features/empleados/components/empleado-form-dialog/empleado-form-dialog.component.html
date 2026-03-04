@@ -8,7 +8,7 @@
                 <p-inputgroup-addon>
                     <i class="pi pi-user"></i>
                 </p-inputgroup-addon>
-                <input pInputText placeholder="Nombres" formControlName="nombre" />
+                <input pInputText placeholder="Nombres" formControlName="nombre" maxlength="50" />
             </p-inputgroup>
         </div>
 
@@ -17,7 +17,7 @@
                 <p-inputgroup-addon>
                     <i class="pi pi-user"></i>
                 </p-inputgroup-addon>
-                <input pInputText placeholder="Apellidos" formControlName="apellido" />
+                <input pInputText placeholder="Apellidos" formControlName="apellido" maxlength="50" />
             </p-inputgroup>
         </div>
 
@@ -33,7 +33,8 @@
                 <p-inputgroup-addon>
                     <i class="pi pi-id-card"></i>
                 </p-inputgroup-addon>
-                <input pInputText placeholder="Numero documento" formControlName="numeroIdentificacion" />
+                <input pInputText placeholder="Numero documento" formControlName="numeroIdentificacion"
+                    maxlength="10" />
             </p-inputgroup>
         </div>
 
@@ -58,7 +59,8 @@
                 <p-inputgroup-addon>
                     <i class="pi pi-map"></i>
                 </p-inputgroup-addon>
-                <input pInputText placeholder="Direccion de residencia" formControlName="direccionResidencia" />
+                <input pInputText placeholder="Direccion de residencia" formControlName="direccionResidencia"
+                    maxlength="100" />
             </p-inputgroup>
         </div>
 
@@ -74,7 +76,6 @@
                 formControlName="fechaNacimiento">
             </p-datepicker>
         </div>
-
 
         <div class="col-12 md:col-4">
             <p-datepicker placeholder="Fecha ingreso" showIcon iconDisplay="input" appendTo="body"
@@ -102,7 +103,7 @@
                 <p-inputgroup-addon>
                     <i class="pi pi-phone"></i>
                 </p-inputgroup-addon>
-                <input pInputText placeholder="Numero de telefono" formControlName="numeroTelefono" />
+                <input pInputText placeholder="Numero de telefono" formControlName="numeroTelefono" maxlength="10" />
             </p-inputgroup>
         </div>
 
@@ -114,11 +115,11 @@
 
         <!-- Botón -->
         <div class="col-12 flex justify-content-center">
-            <p-button label="Crear empleado" icon="pi pi-check" iconPos="right" type="submit"
+            <p-button label="Gusrdar datos" icon="pi pi-check" iconPos="right" type="submit"
                 [disabled]="empleadoForm.invalid">
             </p-button>
         </div>
-        
+
     </div>
 
 </form>
