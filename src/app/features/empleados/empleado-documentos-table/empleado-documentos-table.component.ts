@@ -12,6 +12,11 @@ import { DocumentoMaestro } from '../../../shared/models/documento-maestro.model
 import { EmpleadoDocumentosDialogComponent } from '../components/empleado-documentos-dialog/empleado-documentos-dialog.component';
 import { EmpleadoDocumento } from '../models/empleado-documento.model';
 import { EmpleadoDocumentoService } from '../services/empleado-documento.service';
+import { AlmacenamientoService } from '../../../core/services/almacenamiento.service';
+import { EmpleadoService } from '../services/empleado.service';
+import { Empleado } from '../models/empleado.model';
+import { PdfViewerComponent } from '../../../shared/components/pdf-viewer/pdf-viewer.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-empleado-documentos-table',
@@ -23,7 +28,9 @@ import { EmpleadoDocumentoService } from '../services/empleado-documento.service
     DialogModule,
     InputTextModule,
     ConfirmDialogModule,
-    EmpleadoDocumentosDialogComponent
+    EmpleadoDocumentosDialogComponent,
+    PdfViewerComponent,
+    PdfViewerModule
   ],
   providers: [ConfirmationService],
   standalone: true,
@@ -35,6 +42,9 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
   empleadoId!: number;
   empleadoDocumento: EmpleadoDocumento[] = [];
   documentoMaestro: DocumentoMaestro[] = [];
+  empleadoData: Empleado[] = [];
+  cedulaEmpleado: string = '';
+  idDocumento: number = 0;
 
   displayDialog = false;
   documentoEdit?: EmpleadoDocumento; // para edición
@@ -44,12 +54,15 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
     private router: Router,
     private empleadoDocumentoService: EmpleadoDocumentoService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private almacenamientoService: AlmacenamientoService,
+    private empleadoService: EmpleadoService
   ) { }
 
   ngOnInit(): void {
     this.empleadoId = Number(this.route.snapshot.paramMap.get('id'))
     this.loadDocumentosEmpleado();
+    this.buscarEmpleado();
   }
 
   loadDocumentosEmpleado() {
@@ -79,30 +92,79 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
     })
   }
 
-  onSaved(empleadoDocumento: any) {
-    this.empleadoDocumentoService.postEmpleadoDocumento(empleadoDocumento).subscribe({
-      next: (respuesta) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: respuesta.metadata[0].tipo,
-          detail: 'Documento creado y cargado correctamente',
-          life: 4000
-        })
-        this.loadDocumentosEmpleado(); // ✅ Recargar
-        this.onDialogHide();
+  buscarEmpleado() {
+    this.empleadoService.findByEmpleadoId(this.empleadoId).subscribe({
+      next: (response) => {
+        this.cedulaEmpleado = response[0].numeroIdentificacion;
       },
       error: (err) => {
         this.messageService.add({
-          severity: 'error',
-          summary: err.error.metadata[0].tipo,
-          detail: err.error.metadata[0].descripcion,
+          severity: 'warn',
+          summary: err.error.metaData.descripcion,
+          detail: 'El empleado no tiene numero de cedula',
           life: 4000
-        })
-
-        this.loadDocumentosEmpleado(); // ✅ Recargar
-        this.onDialogHide();
+        });
       }
     })
+  }
+
+  onSaved(event: { documento: EmpleadoDocumento, archivo: File, tipoDocumento: string }) {
+
+    const documento = event.documento;
+    const archivo = event.archivo;
+    const tipo = event.tipoDocumento;
+
+    this.empleadoDocumentoService.postEmpleadoDocumento(documento)
+      .subscribe({
+        next: (respuesta) => {
+          const metaData = respuesta.metadata[0];
+          if (metaData.codigo !== '00') {
+            return;
+          }
+          const idDocumento = respuesta.empleadoDocumentoResponse.empleadoDocumento?.id;
+          const nombreCarpeta = `${this.cedulaEmpleado}/${tipo}`;
+          this.almacenamientoService.crearCarpeta(nombreCarpeta)
+            .subscribe({
+              next: (carpetaRespuesta) => {
+                const ruta = carpetaRespuesta.url;
+                this.almacenamientoService.cargarArchivo(ruta, archivo)
+                  .subscribe({
+                    next: (cargaArchivo: any) => {
+                      const metaDataArchivo = cargaArchivo.metadata[0];
+                      this.messageService.add({
+                        severity: 'info',
+                        summary: metaDataArchivo.tipo,
+                        detail: metaDataArchivo.descripcion,
+                        life: 4000
+                      });
+                      const rutaArchivo = `${ruta}/${archivo.name}`.replace(/\\/g, '/');
+                      this.empleadoDocumentoService
+                        .editarRutaDocumento(idDocumento, rutaArchivo)
+                        .subscribe({
+                          next: () => {
+                            this.loadDocumentosEmpleado();
+                            this.onDialogHide();
+                          },
+                          error: (err) => {
+                            this.handleError(err);
+                          }
+                        });
+                    },
+                    error: (err) => {
+                      this.handleError(err);
+                    }
+                  });
+              },
+              error: (err) => {
+                this.handleError(err);
+              }
+            });
+        },
+        error: (err) => {
+          this.handleError(err);
+        }
+      });
+
   }
 
   confirmDelete(documento: EmpleadoDocumento) {
@@ -164,6 +226,15 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
 
   onCancelled() {
     this.onDialogHide();
+  }
+
+  rutaPdf: string = '';
+  visiblePdf = false;
+
+  verDocumento(data: any) {
+    this.rutaPdf = data.urlArchivo
+    this.visiblePdf = true;
+
   }
 
 }

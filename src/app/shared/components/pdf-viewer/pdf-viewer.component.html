@@ -1,0 +1,10 @@
+<div class="pdf-container" *ngIf="src">
+  <pdf-viewer
+    [src]="src"
+    [render-text]="true"
+    [original-size]="false"
+    style="width:100%"
+    [style.height]="height">
+  </pdf-viewer>
+
+</div>
