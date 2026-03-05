@@ -45,9 +45,12 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
   empleadoData: Empleado[] = [];
   cedulaEmpleado: string = '';
   idDocumento: number = 0;
-
+  rutaPdf: string = '';
+  visiblePdf = false;
   displayDialog = false;
-  documentoEdit?: EmpleadoDocumento; // para edición
+  documentoEdit?: EmpleadoDocumento;
+  tipoDocumento: any = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -188,7 +191,7 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
 
   deleteDocumento(id: number) {
     this.empleadoDocumentoService.deleteEmpleadoDocumento(id).subscribe({
-      next: (response) => {
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Registro eliminado',
@@ -202,39 +205,63 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
   }
 
   handleError(err: any) {
+
     const metadata = err.error?.metadata?.[0];
     this.messageService.add({
       severity: 'error',
       summary: metadata?.tipo || 'Error',
       detail: metadata?.descripcion || 'Ocurrió un error inesperado'
+
     });
   }
 
   volver(): void {
+
     this.router.navigate(['/empleados']);
+
   }
 
   openCreateDialog() {
-    this.documentoEdit = undefined; // modo creación
+
+    this.documentoEdit = undefined;
     this.displayDialog = true;
+
   }
 
   onDialogHide() {
+
     this.displayDialog = false;
     this.documentoEdit = undefined;
+
   }
 
   onCancelled() {
+
     this.onDialogHide();
+
   }
 
-  rutaPdf: string = '';
-  visiblePdf = false;
-
   verDocumento(data: any) {
-    this.rutaPdf = data.urlArchivo
-    this.visiblePdf = true;
 
+    this.empleadoDocumentoService.getEmpleadoDocumentoPorId(data.id).subscribe({
+      next: (documentoData) => {
+        const pathPdf: string | any = documentoData.empleadoDocumentoResponse
+          .empleadoDocumento?.urlArchivo;
+
+        const partes = pathPdf.split('/');
+
+        const nombreArchivo = partes.pop();
+        const ruta = partes.join('/');
+        const documentoTipo = documentoData.empleadoDocumentoResponse.empleadoDocumento?.documentoMaestro.nombre
+
+        this.rutaPdf = this.almacenamientoService.verArchivo(ruta, nombreArchivo);
+
+        this.tipoDocumento = documentoTipo
+
+        this.visiblePdf = true;
+      }
+
+    })
   }
 
 }

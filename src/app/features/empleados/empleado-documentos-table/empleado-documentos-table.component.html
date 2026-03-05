@@ -26,12 +26,9 @@
                 <td>{{documento.fechaInicial}}</td>
                 <td>{{documento.fechaFinal}}</td>
                 <td>
-                <button
-                    pButton
-                    icon="pi pi-eye"
-                    (click)="verDocumento(documento)">
-                </button>
-            </td>
+                    <button pButton icon="pi pi-eye" (click)="verDocumento(documento)">
+                    </button>
+                </td>
                 <td>
                     <p-button icon="pi pi-trash" class="p-button-rounded" (click)="confirmDelete(documento)"
                         severity="danger"></p-button>
@@ -52,11 +49,10 @@
     </app-empleado-documentos-dialog> <!--  -->
 </p-dialog>
 
-<p-dialog header="Visor de documento" [(visible)]="visiblePdf" [modal]="true" [style]="{width:'70vw', height: '450px'}"
+<p-dialog header="{{tipoDocumento}}" [(visible)]="visiblePdf" [modal]="true" [style]="{width:'55vw', height: '800px'}"
     [breakpoints]="{'960px':'90vw'}">
 
     <app-pdf-viewer [src]="rutaPdf" height="80vh">
     </app-pdf-viewer>
 
 </p-dialog>
-<p>empleado-documentos-table works!</p>

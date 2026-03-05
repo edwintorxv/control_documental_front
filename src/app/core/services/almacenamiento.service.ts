@@ -32,4 +32,8 @@ export class AlmacenamientoService {
         );
     }
 
+    verArchivo(rutaArchivo: string, nombreArchivo: string): string {
+        return `${this.API_URL}/verArchivo?ruta=${encodeURIComponent(rutaArchivo)}&nombreArchivo=${encodeURIComponent(nombreArchivo)}`;
+    }
+
 }

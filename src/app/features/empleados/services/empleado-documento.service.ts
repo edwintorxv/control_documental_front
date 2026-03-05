@@ -37,4 +37,9 @@ export class EmpleadoDocumentoService {
             .delete(`${this.API_URL}/${idDocumento}`)
     }
 
+    getEmpleadoDocumentoPorId(idDocumento: number): Observable<EmpleadoDocumentoResponse> {
+        return this.http
+            .get<EmpleadoDocumentoResponse>(`${this.API_URL}/documento/${idDocumento}`);
+    }
+
 }
