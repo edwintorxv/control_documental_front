@@ -50,4 +50,17 @@ export class EmpleadoService {
 
     }
 
+     findByEmpleadoId(idEmpleado: number): Observable<Empleado[]> {
+
+        return this.http
+            .get<EmpleadoResponseWraper>(`${this.API_URL}/empleado/busquedaPorId/${idEmpleado}`)
+            .pipe(
+                map(response => {
+                    const emp = response.empleadoResponse.empleado;
+                    return emp ? [emp] : [];
+                })
+            )
+
+    }
+
 }

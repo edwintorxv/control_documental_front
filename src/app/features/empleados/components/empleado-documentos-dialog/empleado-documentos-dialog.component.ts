@@ -45,6 +45,7 @@ export class EmpleadoDocumentosDialogComponent implements OnInit {
 
   @Input() empleadoId!: number;
   private _documento?: EmpleadoDocumento;
+  selectedFile!: File;
 
   @Input() set documentoEmpleado(value: EmpleadoDocumento | undefined) {
     this._documento = value;
@@ -58,20 +59,39 @@ export class EmpleadoDocumentosDialogComponent implements OnInit {
     return this._documento;
   }
 
-  @Output() saved = new EventEmitter<EmpleadoDocumento>();
+  @Output() saved = new EventEmitter<{
+    documento: EmpleadoDocumento,
+    archivo: File,
+    tipoDocumento: string
+  }>();
+
   @Output() cancelled = new EventEmitter<void>();
 
   documentoMaestro: DocumentoMaestro[] = [];
-  empleadoDocumentoForm!: FormGroup;
+  empleadoDocumentoForm: FormGroup;
 
   constructor(
     private documentoMaestroService: DocumentoMaestroService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
-  ) { }
+  ) {
+    this.empleadoDocumentoForm = this.formBuilder.group({
+      documentoMaestro: [null, Validators.required],
+      fechaInicial: [null, Validators.required],
+      nombreArchivo: [{ value: null, disabled: true }, Validators.required]
+    });
+  }
+
+  get documentoSeleccionado(): DocumentoMaestro | null {
+    const id = this.empleadoDocumentoForm.get('documentoMaestro')?.value;
+
+    if (!id) return null;
+
+    return this.documentoMaestro.find(dm => dm.id === id) || null;
+  }
 
   ngOnInit(): void {
-    this.buildForm();
+    //this.buildForm();
     this.loadDocumentoMaestro();
 
     if (this.empleadoDocumento) {
@@ -98,7 +118,8 @@ export class EmpleadoDocumentosDialogComponent implements OnInit {
     this.empleadoDocumentoForm = this.formBuilder.group({
 
       documentoMaestro: [null, [Validators.required,]],
-      fechaInicial: [null, [Validators.required]]
+      fechaInicial: [null, [Validators.required]],
+      nombreArchivo: [null, [{ value: null, disabled: true }, Validators.required]]
 
     });
   }
@@ -115,29 +136,38 @@ export class EmpleadoDocumentosDialogComponent implements OnInit {
       })
   }
 
-  onUpload(event: UploadEvent) {
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  onFileSelect(event: any) {
+    this.selectedFile = event.files[0];
   }
 
   onSubmit(): void {
 
-    if (this.empleadoDocumentoForm.invalid) {
+    if (this.empleadoDocumentoForm.invalid || !this.selectedFile) {
       this.empleadoDocumentoForm.markAllAsTouched();
       return;
     }
 
+    const tipoDocumentoNombre =
+      this.documentoSeleccionado?.tipoDocumento?.nombre || '';
+
     const formValue = this.empleadoDocumentoForm.getRawValue();
+
     const documentoData: any = {
       documentoMaestro: { id: formValue.documentoMaestro },
       fechaInicial: formValue.fechaInicial,
-      empleado: { id: this.empleadoId }
-    }
+      empleado: { id: this.empleadoId },
+      nombreArchivo: this.selectedFile.name
+    };
 
-    if (this.documentoEmpleado && this.documentoEmpleado.id) {
+    if (this.documentoEmpleado?.id) {
       documentoData.id = this.documentoEmpleado.id;
     }
 
-    this.saved.emit(documentoData);
+    this.saved.emit({
+      documento: documentoData,
+      archivo: this.selectedFile,
+      tipoDocumento: tipoDocumentoNombre
+    });
 
   }
 

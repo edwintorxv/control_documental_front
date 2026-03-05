@@ -25,6 +25,13 @@ export class EmpleadoDocumentoService {
             .post<EmpleadoDocumentoResponse>(`${this.API_URL}`, empleaDocumento);
     }
 
+    editarRutaDocumento(id: any, rutaArchivo: string) {
+        return this.http.put(
+            `${this.API_URL}/${id}?rutaArchivo=${rutaArchivo}`,
+            {}
+        );
+    }
+
     deleteEmpleadoDocumento(idDocumento: number) {
         return this.http
             .delete(`${this.API_URL}/${idDocumento}`)
