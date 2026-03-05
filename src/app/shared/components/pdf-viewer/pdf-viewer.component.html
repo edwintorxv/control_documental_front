@@ -1,10 +1,19 @@
-<div class="pdf-container" *ngIf="src">
-  <pdf-viewer
-    [src]="src"
-    [render-text]="true"
-    [original-size]="false"
-    style="width:100%"
-    [style.height]="height">
+<div class="pdf-container">
+
+  <div class="pdf-toolbar">
+
+    <p-button icon="pi pi-search-plus" (click)="zoomIn()"></p-button>
+
+    <p-button icon="pi pi-search-minus" (click)="zoomOut()"></p-button>
+
+    <p-button icon="pi pi-refresh" (click)="rotate()"></p-button>
+
+    <p-button icon="pi pi-download" (click)="downloadPdf()"></p-button>
+
+  </div>
+
+  <pdf-viewer *ngIf="showPdf" [src]="src" [zoom]="zoom" [rotation]="rotation" [render-text]="true"
+    [original-size]="false" style="width:100%" [style.height]="height">
   </pdf-viewer>
 
 </div>
