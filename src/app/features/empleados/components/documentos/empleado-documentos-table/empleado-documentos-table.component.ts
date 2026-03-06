@@ -8,14 +8,14 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { DocumentoMaestro } from '../../../shared/models/documento-maestro.model';
-import { EmpleadoDocumentosDialogComponent } from '../components/empleado-documentos-dialog/empleado-documentos-dialog.component';
-import { EmpleadoDocumento } from '../models/empleado-documento.model';
-import { EmpleadoDocumentoService } from '../services/empleado-documento.service';
-import { AlmacenamientoService } from '../../../core/services/almacenamiento.service';
-import { EmpleadoService } from '../services/empleado.service';
-import { Empleado } from '../models/empleado.model';
-import { PdfViewerComponent } from '../../../shared/components/pdf-viewer/pdf-viewer.component';
+import { DocumentoMaestro } from '../../../../../shared/models/documento-maestro.model';
+import { EmpleadoDocumentosDialogComponent } from '../empleado-documentos-dialog/empleado-documentos-dialog.component';
+import { EmpleadoDocumento } from '../../../models/empleado-documento.model';
+import { EmpleadoDocumentoService } from '../../../services/empleado-documento.service';
+import { AlmacenamientoService } from '../../../../../core/services/almacenamiento.service';
+import { EmpleadoService } from '../../../services/empleado.service';
+import { Empleado } from '../../../models/empleado.model';
+import { PdfViewerComponent } from '../../../../../shared/components/pdf-viewer/pdf-viewer.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({

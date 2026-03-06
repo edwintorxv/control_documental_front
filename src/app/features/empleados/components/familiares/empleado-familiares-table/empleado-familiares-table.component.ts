@@ -8,9 +8,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { EmpleadoFamiliaresDialogComponent } from '../components/empleado-familiares-dialog/empleado-familiares-dialog.component';
-import { EmpleadoFamiliar } from '../models/empleado-familiar.model';
-import { EmpleadoFamiliarService } from '../services/empleado-familiar.service';
+import { EmpleadoFamiliar } from '../../../models/empleado-familiar.model';
+import { EmpleadoFamiliarService } from '../../../services/empleado-familiar.service';
+import { EmpleadoFamiliaresDialogComponent } from '../empleado-familiares-dialog/empleado-familiares-dialog.component';
 
 
 

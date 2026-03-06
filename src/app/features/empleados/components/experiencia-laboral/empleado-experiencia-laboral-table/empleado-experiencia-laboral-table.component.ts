@@ -6,10 +6,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { EmpleadoExperienciaLaboralService } from '../services/empleado-experiencia-laboral.service';
-import { EmpleadoExperienciaLaboral } from '../models/empleado-experiencia-laboral.model';
+import { EmpleadoExperienciaLaboralService } from '../../../services/empleado-experiencia-laboral.service';
+import { EmpleadoExperienciaLaboral } from '../../../models/empleado-experiencia-laboral.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { EmpleadoExperienciaLaboralDialogComponent } from '../components/empleado-experiencia-laboral-dialog/empleado-experiencia-laboral-dialog.component';
+import { EmpleadoExperienciaLaboralDialogComponent } from '../empleado-experiencia-laboral-dialog/empleado-experiencia-laboral-dialog.component';
 
 @Component({
   selector: 'app-empleado-experiencia-laboral-table',
