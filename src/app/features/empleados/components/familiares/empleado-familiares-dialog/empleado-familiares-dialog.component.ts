@@ -8,13 +8,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
-import { DocumentoMaestroService } from '../../../../core/services/documento-maestro.service';
-import { DocumentoMaestro } from '../../../../shared/models/documento-maestro.model';
-import { EmpleadoFamiliar } from '../../models/empleado-familiar.model';
-import { TipoFamiliar } from '../../models/tipo-familiar.model';
-import { TipoFamiliarService } from '../../services/tipo-familiar.service';
 import { SelectModule } from 'primeng/select';
-import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { DocumentoMaestroService } from '../../../../../core/services/documento-maestro.service';
+import { DocumentoMaestro } from '../../../../../shared/models/documento-maestro.model';
+import { CustomValidators } from '../../../../../shared/validators/custom-validators';
+import { EmpleadoFamiliar } from '../../../models/empleado-familiar.model';
+import { TipoFamiliar } from '../../../models/tipo-familiar.model';
+import { TipoFamiliarService } from '../../../services/tipo-familiar.service';
 
 @Component({
   selector: 'app-empleado-familiares-dialog',

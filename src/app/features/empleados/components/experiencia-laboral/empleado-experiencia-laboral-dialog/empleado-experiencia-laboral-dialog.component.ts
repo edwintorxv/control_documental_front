@@ -9,8 +9,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { CustomValidators } from '../../../../shared/validators/custom-validators';
-import { EmpleadoExperienciaLaboral } from '../../models/empleado-experiencia-laboral.model';
+import { CustomValidators } from '../../../../../shared/validators/custom-validators';
+import { EmpleadoExperienciaLaboral } from '../../../models/empleado-experiencia-laboral.model';
 
 @Component({
   selector: 'app-empleado-experiencia-laboral-dialog',

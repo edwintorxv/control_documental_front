@@ -9,12 +9,12 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { EmpleadoDocumento } from '../../models/empleado-documento.model';
-import { DocumentoMaestroService } from '../../../../core/services/documento-maestro.service';
-import { DocumentoMaestro } from '../../../../shared/models/documento-maestro.model';
+import { EmpleadoDocumento } from '../../../models/empleado-documento.model';
+import { DocumentoMaestroService } from '../../../../../core/services/documento-maestro.service';
+import { DocumentoMaestro } from '../../../../../shared/models/documento-maestro.model';
 import { FileUpload } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
-import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { CustomValidators } from '../../../../../shared/validators/custom-validators';
 
 interface UploadEvent {
   originalEvent: Event;
