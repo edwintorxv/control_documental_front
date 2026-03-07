@@ -7,5 +7,5 @@ export interface EmpleadoResponseWraper {
         lstEmpleado: Empleado[];
         empleado: Empleado | null;
     };
-    
+
 }

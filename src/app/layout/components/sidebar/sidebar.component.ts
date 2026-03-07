@@ -65,7 +65,7 @@ export class SidebarComponent implements OnInit {
           {
             label: 'Listado',
             icon: 'pi pi-list',
-            routerLink: '/empleados'
+            routerLink: '/clientes'
           }
         ]
       }
