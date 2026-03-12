@@ -29,7 +29,7 @@
         '1200px': '60vw',
         '960px': '75vw',
         '640px': '95vw'}">
-    <app-cliente-form-dialog [cliente]="selectedCliente" [isEditMode]="isEditMode"> <!--    -->
+    <app-cliente-form-dialog [cliente]="selectedCliente" [isEditMode]="isEditMode" (saved)="clienteSaved()"> <!--    -->
     </app-cliente-form-dialog>
 
 </p-dialog>

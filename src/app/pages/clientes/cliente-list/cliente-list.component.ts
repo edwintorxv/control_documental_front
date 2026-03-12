@@ -46,14 +46,34 @@ export class ClienteListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    console.log('Carga clientes')
     this.cargarClientes();
+
   }
 
   cargarClientes() {
+    console.log('Entra al metodo')
     this.clienteService.getClientes()
       .subscribe({
         next: (response) => {
           this.lstClientes = response;
+        },
+        error: (err) => {
+          let mensaje = '';
+
+          if (err.status === 0) {
+            mensaje = 'No se puede conectar con el servidor';
+          } else {
+            mensaje = err.message;
+          }
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: mensaje,
+            life: 4000
+          });
         }
       })
   }
@@ -110,6 +130,6 @@ export class ClienteListComponent implements OnInit {
       });
   }
 
-  
+
 
 }

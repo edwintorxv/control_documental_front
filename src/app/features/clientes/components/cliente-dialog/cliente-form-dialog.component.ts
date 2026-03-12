@@ -142,11 +142,20 @@ export class ClienteFormDialogComponent implements OnInit, OnChanges {
           this.lstDepartamentos = departamentos
         },
         error: (err) => {
+          let mensaje = '';
+
+          if (err.status === 0) {
+            mensaje = 'No se puede conectar con el servidor';
+          } else {
+            mensaje = err.message;
+          }
+
           this.messageService.add({
-            severity: 'warn',
-            summary: err.tipo,
-            detail: err.descripcion
-          })
+            severity: 'error',
+            summary: 'Error',
+            detail: mensaje,
+            life: 4000
+          });
         }
       })
   }
@@ -168,11 +177,20 @@ export class ClienteFormDialogComponent implements OnInit, OnChanges {
         this.lstEstado = estados;
       },
       error: (err) => {
+        let mensaje = '';
+
+        if (err.status === 0) {
+          mensaje = 'No se puede conectar con el servidor';
+        } else {
+          mensaje = err.message;
+        }
+
         this.messageService.add({
-          severity: 'warn',
-          summary: err.tipo,
-          detail: err.descripcion
-        })
+          severity: 'error',
+          summary: 'Error',
+          detail: mensaje,
+          life: 4000
+        });
       }
     })
   }
