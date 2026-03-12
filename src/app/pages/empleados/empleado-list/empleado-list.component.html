@@ -17,10 +17,9 @@
         </p-button>
     </div>
 
-
 </div>
 
-<app-empleado-table [empleados]="empleados" (create)="openFormCreateDialog()" (edit)="openFormEditDialog($event)">
+<app-empleado-table [empleados]="empleados" (create)="openFormCreateDialog()" (edit)="openFormEditDialog($event)"> <!--  -->
 </app-empleado-table>
 
 <p-dialog [header]="isEditMode ? 'Editar empleado' : 'Crear empleado'" [(visible)]="displayFormDialog" [modal]="true"

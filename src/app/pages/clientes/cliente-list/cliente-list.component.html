@@ -1,0 +1,35 @@
+<h2>Listado de clientes</h2>
+
+
+<div class="table-header">
+
+    <p-button label="Crear cliente" icon="pi pi-plus" (click)="openFormCreateDialog()">
+    </p-button>
+
+    <div class="search-container">
+
+        <input type="text" pInputText placeholder="Buscar cliente..." [formControl]="searchControl" />
+
+        <p-button icon="pi pi-search" (click)="buscarCliente()">
+        </p-button>
+
+        <p-button icon="pi pi-filter-slash" severity="secondary" (click)="limpiar()">
+        </p-button>
+    </div>
+
+</div>
+
+<app-cliente-table [lstClientes]="lstClientes" (create)="openFormCreateDialog()" (edit)="openFormEditDialog($event)">
+    <!--  -->
+
+</app-cliente-table>
+
+<p-dialog [header]="isEditMode ? 'Editar cliente' : 'Crear cliente'" [(visible)]="displayFormDialog" [modal]="true"
+    [style]="{ width: '50vw', maxWidth: '900px' }" [breakpoints]="{
+        '1200px': '60vw',
+        '960px': '75vw',
+        '640px': '95vw'}">
+    <app-cliente-form-dialog [cliente]="selectedCliente" [isEditMode]="isEditMode" (saved)="clienteSaved()"> <!--    -->
+    </app-cliente-form-dialog>
+
+</p-dialog>

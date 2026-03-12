@@ -1,0 +1,64 @@
+<p-card class="card">
+    <p-table [value]="lstClientes" #dt1 selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '75rem' }"
+        [rows]="10" [paginator]="true" [scrollable]="true" scrollHeight="450px">
+
+        <ng-template #header pTemplate="header">
+            <tr>
+                <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre" /> </th>
+                <th pSortableColumn="nit">NIT <p-sortIcon field="nit" /></th>
+                <th pSortableColumn="direccion">Direccion <p-sortIcon field="direccion" /></th>
+                <th pSortableColumn="representante">Representate <p-sortIcon field="representante" /></th>
+                <th pSortableColumn="telefono">Telefono <p-sortIcon field="telefono" /></th>
+                <th pSortableColumn="estado.nombre">Estado <p-sortIcon field="estado.nombre" /></th>
+                <th pSortableColumn="ciudadMunicipio.departamento.nombre">Departamento <p-sortIcon
+                        field="ciudadMunicipio.departamento.nombre" /></th>
+                <th pSortableColumn="ciudadMunicipio.nombre">Ciudad <p-sortIcon field="ciudadMunicipio.nombre" /></th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cliente>
+            <tr>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.nit}}</td>
+                <td>{{cliente.direccion}}</td>
+                <td>{{cliente.representante}}</td>
+                <td>{{cliente.telefono}}</td>
+                <td>{{cliente.estado.nombre}}</td>
+                <td>{{cliente.ciudadMunicipio.departamento.nombre}}</td>
+                <td>{{cliente.ciudadMunicipio.nombre}}</td>
+                <td>
+                    <p-button icon="pi pi-cog" severity="warn" (click)="showDialog(cliente)">
+                    </p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog header="Acciones del cliente" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+        [breakpoints]="{ '768px': '95vw' }" contentStyle="{ padding: '2rem' }">
+
+        <div class="grid">
+
+            <!-- Editar -->
+            <div class="col-12 md:col-6">
+                <div class="action-card" (click)="editarCliente()">
+                    <i class="pi pi-pencil action-icon text-orange-500"></i>
+                    <h3>Editar datos</h3>
+                    <p>Modificar información general del cliente.</p>
+                </div>
+            </div>
+
+            <!-- Procesos confiabilidad -->
+            <div class="col-12 md:col-6">
+                <div class="action-card" (click)="abrirConfiabilidad()">
+                    <i class="pi pi-users action-icon text-blue-500"></i>
+                    <h3>Confiabilidad</h3>
+                    <p>Crear o revisar procesos de confiabilidad .</p>
+                </div>
+            </div>
+
+        </div>
+
+    </p-dialog>
+
+</p-card>

@@ -17,6 +17,7 @@ import { CiudadMunicipio } from '../../../../shared/models/ciudad-municipio.mode
 import { Departamento } from '../../../../shared/models/departamento.model';
 import { DocumentoMaestro } from '../../../../shared/models/documento-maestro.model';
 import { Estado } from '../../../../shared/models/estado.model';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { Cargo } from '../../models/cargo.model';
 import { Empleado } from '../../models/empleado.model';
 import { EstadoCivil } from '../../models/estado-civil.model';
@@ -26,7 +27,6 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { EstadoCivilService } from '../../services/estado-civil.service';
 import { EstadoService } from '../../services/estado.service';
 import { NivelAcademicoService } from '../../services/nivel-academico.service';
-import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-empleado-form-dialog',
@@ -54,7 +54,6 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   @Input() empleado?: Empleado;
   @Input() isEditMode: boolean = false;
 
-
   departamentos: Departamento[] = [];
   ciudadMunicipio: CiudadMunicipio[] = [];
   documentoMaestro: DocumentoMaestro[] = [];
@@ -63,7 +62,6 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   estado: Estado[] = [];
   nivelAcademico: NivelAcademico[] = [];
   empleadoForm!: FormGroup;
-
 
   constructor(
     private departamentoService: DepartamentoService,

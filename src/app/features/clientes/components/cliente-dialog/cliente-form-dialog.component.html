@@ -1,0 +1,84 @@
+<form [formGroup]="clienteForm" class="fluid" (ngSubmit)="saveCliente()"> <!--  -->
+
+    <div class="grid">
+        <!-- Nombre y Nit -->
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombre" maxlength="50" formControlName="nombre" /> <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-id-card"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nit" maxlength="50" formControlName="nit" /> <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <!-- Ubicación -->
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Departamento" [showClear]="true" appendTo="body" optionLabel="nombre"
+                optionValue="id" [options]="lstDepartamentos" (onChange)="onDepartamentoChange($event.value)">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Ciudad o municipio" [showClear]="true" appendTo="body"
+                optionLabel="nombre" optionValue="id" [options]="lstCiudadMunicipio" formControlName="ciudadMunicipio">
+                <!--   -->
+            </p-select>
+        </div>
+
+        <!-- Dirección full width -->
+        <div class="col-12 ">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-map"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Direccion del cliente" maxlength="100" formControlName="direccion" />
+                <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <!-- Nombre y Nit -->
+        <div class="col-12 md:col-4">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombre contacto" maxlength="50" formControlName="representante" />
+                <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <!-- Teléfono y Estado -->
+        <div class="col-12 md:col-4">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-phone"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Numero de telefono" maxlength="10" formControlName="telefono" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <p-select class="w-full" placeholder="Estado" appendTo="body" optionValue="id" [options]="lstEstado"
+                optionLabel="nombre" formControlName="estado">
+            </p-select>
+        </div>
+
+        <!-- Botón -->
+        <div class="col-12 flex justify-content-center">
+            <p-button label="Guardar datos" icon="pi pi-check" iconPos="right" type="submit"
+                [disabled]="clienteForm.invalid">
+            </p-button>
+        </div>
+
+    </div>
+
+</form>

@@ -1,0 +1,76 @@
+<form [formGroup]="formGroupConfiabilidad" class="fluid" (ngSubmit)="saveProcesoConfiabilidad()">
+    <div class="grid">
+        <div class="col-12 md:col-4">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Nombre" maxlength="50" formControlName="nombre" /> <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-user"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Apellidos" maxlength="50" formControlName="apellido" /> <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-id-card"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="No. cedula" maxlength="10" formControlName="identificacion" />
+                <!--  -->
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Departamento" [showClear]="true" appendTo="body" optionLabel="nombre"
+                optionValue="id" [options]="lstDepartamento" (onChange)="onDepartamentoChange($event.value)">
+            </p-select>
+        </div>
+
+        <div class="col-12 md:col-6">
+            <p-select class="w-full" placeholder="Ciudad o municipio" [showClear]="true" appendTo="body"
+                optionLabel="nombre" optionValue="id" [options]="lstCiudadMunicipio" formControlName="ciudadMunicipio">
+            </p-select>
+        </div>
+
+        <!-- Dirección full width -->
+        <div class="col-9 ">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-map"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="Direccion del evaluado" maxlength="100" formControlName="direccion" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-3">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-phone"></i>
+                </p-inputgroup-addon>
+                <input pInputText placeholder="No. telefono" maxlength="10" formControlName="telefono" />
+            </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-5">
+            <p-select class="w-full" placeholder="Proceso" [showClear]="true" appendTo="body" optionLabel="nombre"
+                optionValue="id" [options]="lstDocumentoMaestro" formControlName="documentoMaestro">
+            </p-select>
+        </div>
+
+        <!-- Botón -->
+        <div class="col-12 flex justify-content-center">
+            <p-button label="Crear solicitud" icon="pi pi-check" iconPos="right" type="submit"
+                [disabled]="formGroupConfiabilidad.invalid">
+            </p-button>
+        </div>
+
+    </div>
+</form>

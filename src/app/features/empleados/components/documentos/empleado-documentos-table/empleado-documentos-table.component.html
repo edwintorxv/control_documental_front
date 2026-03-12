@@ -43,10 +43,8 @@
 </p-card>
 
 <p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{ width: '50rem' }">
-    <!-- (onHide)="onDialogHide()" -->
     <app-empleado-documentos-dialog (saved)="onSaved($event)" [empleadoId]="empleadoId" (cancelled)="onCancelled()">
-        <!--  [experienciaLaboral]="laboralEdit" -->
-    </app-empleado-documentos-dialog> <!--  -->
+    </app-empleado-documentos-dialog>
 </p-dialog>
 
 <p-dialog header="{{tipoDocumento}}" [(visible)]="visiblePdf" [modal]="true" [style]="{width:'55vw', height: '800px'}"

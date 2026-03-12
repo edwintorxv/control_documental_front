@@ -59,19 +59,20 @@ export class EmpleadoListComponent implements OnInit {
 
   buscar(): void {
 
-    const valor = this.searchControl.value?.trim();
+    const cedulaEmpleado = this.searchControl.value?.trim();
 
-    if (!valor) {
+    if (!cedulaEmpleado) {
       this.empleados = this.empleadosOriginal;
       this.messageService.add({
         severity: 'warn',
         summary: 'No hay data para buscar',
-        detail: 'Ingrese un número de cédula'
+        detail: 'Ingrese un número de cédula',
+        life: 4000
       });
       return;
     }
 
-    this.empleadoService.findByIdentificacion(valor).subscribe({
+    this.empleadoService.findByIdentificacion(cedulaEmpleado).subscribe({
       next: (data) => {
         this.empleados = data ?? [];
 
