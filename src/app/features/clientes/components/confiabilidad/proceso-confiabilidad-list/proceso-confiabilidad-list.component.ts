@@ -9,11 +9,12 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ClienteConfiabilidadEmpleadosDialogComponent } from '../cliente-confiabilidad-empleados-dialog/cliente-confiabilidad-empleados-dialog.component';
+import { ProcesoConfiabilidadCreateDialogComponent } from '../proceso-confiabilidad-create-dialog/proceso-confiabilidad-create-dialog.component';
 import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
+import { AlmacenamientoService } from '../../../../../core/services/almacenamiento.service';
 
 @Component({
-  selector: 'app-cliente-confiabilidad-empleados-table',
+  selector: 'app-proceso-confiabilidad-list',
   imports: [
     CommonModule,
     CardModule,
@@ -21,19 +22,22 @@ import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.
     TableModule,
     DialogModule,
     InputTextModule,
-    ClienteConfiabilidadEmpleadosDialogComponent
+    ProcesoConfiabilidadCreateDialogComponent
   ],
-  templateUrl: './cliente-confiabilidad-empleados-table.component.html',
-  styleUrl: './cliente-confiabilidad-empleados-table.component.scss'
+  templateUrl: './proceso-confiabilidad-list.component.html',
+  styleUrl: './proceso-confiabilidad-list.component.scss'
 })
 
 
-export class ClienteConfiabilidadEmpleadosTableComponent implements OnInit {
+export class ProcesoConfiabilidadListComponent implements OnInit {
 
   clienteId!: number;
   lstProcesoPorCliente: ClienteProcesoConfiabilidad[] = [];
   displayDialog = false;
   procesoConfiabilidadEdit?: ClienteProcesoConfiabilidad; // para edición
+  rutaPdf: string = '';
+  tipoDocumento: any = '';
+  visiblePdf = false;
   //cedulaBloqueo: boolean = false;
 
 
@@ -41,7 +45,8 @@ export class ClienteConfiabilidadEmpleadosTableComponent implements OnInit {
     private clienteProcesoConfiabilidadService: clienteProcesoConfiabilidadService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private almacenamientoService: AlmacenamientoService
   ) { }
 
   ngOnInit(): void {
@@ -55,19 +60,7 @@ export class ClienteConfiabilidadEmpleadosTableComponent implements OnInit {
         this.lstProcesoPorCliente = response
       },
       error: (err) => {
-        let mensaje = '';
-
-        if (err.status === 0) {
-          mensaje = 'No se puede conectar con el servidor';
-        } else {
-          mensaje = err.message;
-        }
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errores',
-          detail: mensaje,
-          life: 4000
-        });
+        ResponseHandlerUtil.handleError(err, this.messageService)
 
       }
     })
@@ -83,7 +76,9 @@ export class ClienteConfiabilidadEmpleadosTableComponent implements OnInit {
           this.onDialogHide();
 
         },
-        error: (error) => ResponseHandlerUtil.handleError(error, this.messageService)
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
       });
   }
 
@@ -103,12 +98,41 @@ export class ClienteConfiabilidadEmpleadosTableComponent implements OnInit {
     this.procesoConfiabilidadEdit = undefined;
   }
 
-   onCancelled() {
-    this.onDialogHide();
-  }
-
   volver(): void {
     this.router.navigate(['/clientes']);
+  }
+
+  verDocumento(data: any) {
+
+    this.clienteProcesoConfiabilidadService.getProcesoPorId(data.id).subscribe({
+      next: (procesoData) => {
+
+        const pathPdf = procesoData?.urlArchivo;
+
+        if (!pathPdf) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Sin documento',
+            detail: 'Este proceso aún no tiene informe'
+          });
+          return;
+        }
+
+        const partes = pathPdf.split('/');
+
+        const nombreArchivo = partes.pop() ?? '';
+        const ruta = partes.join('/');
+
+        const documentoTipo = procesoData?.documentoMaestro?.nombre;
+
+        this.rutaPdf = this.almacenamientoService.verArchivo(ruta, nombreArchivo);
+
+        this.tipoDocumento = documentoTipo;
+        this.visiblePdf = true;
+
+      }
+    });
+
   }
 
 

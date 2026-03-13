@@ -245,14 +245,20 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
 
     this.empleadoDocumentoService.getEmpleadoDocumentoPorId(data.id).subscribe({
       next: (documentoData) => {
-        const pathPdf: string | any = documentoData.empleadoDocumentoResponse
-          .empleadoDocumento?.urlArchivo;
+        const pathPdf: string | any = documentoData
+          .empleadoDocumentoResponse
+          .empleadoDocumento
+          ?.urlArchivo;
 
         const partes = pathPdf.split('/');
 
         const nombreArchivo = partes.pop();
         const ruta = partes.join('/');
-        const documentoTipo = documentoData.empleadoDocumentoResponse.empleadoDocumento?.documentoMaestro.nombre
+        const documentoTipo = documentoData
+          .empleadoDocumentoResponse
+          .empleadoDocumento
+          ?.documentoMaestro
+          .nombre
 
         this.rutaPdf = this.almacenamientoService.verArchivo(ruta, nombreArchivo);
 

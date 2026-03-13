@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClienteConfiabilidadEmpleadosTableComponent } from './cliente-confiabilidad-empleados-table.component';
+import { ClienteConfiabilidadEmpleadosTableComponent } from './proceso-confiabilidad-list.component';
 
 describe('ClienteConfiabilidadEmpleadosTableComponent', () => {
   let component: ClienteConfiabilidadEmpleadosTableComponent;

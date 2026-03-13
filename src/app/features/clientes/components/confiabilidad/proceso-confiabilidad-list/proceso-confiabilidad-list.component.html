@@ -40,9 +40,8 @@
                 <td>{{proceso.fechaSolicitud}}</td>
                 <td>{{proceso.fechaAtencion}}</td>
                 <td>
-                    <p-button icon="pi pi-eye">
-
-                    </p-button>
+                    <p-button icon="pi pi-eye" (click)="verDocumento(proceso)"
+                        *ngIf="proceso.estado === 'F'"></p-button> <!--  -->
                 </td>
             </tr>
 
@@ -54,7 +53,6 @@
 </p-card>
 <p-dialog header="Crear proceso" [style]="{ width: '55rem' }" [(visible)]="displayDialog" [modal]="true"
     (onHide)="onDialogHide()">
-    <app-cliente-confiabilidad-empleados-dialog [clienteId]="clienteId"
-        (saved)="onSaved($event)" (cancelled)="onCancelled()"></app-cliente-confiabilidad-empleados-dialog>
-    <!-- [familiar]="familiarEdit" -->
+    <app-proceso-confiabilidad-create-dialog [clienteId]="clienteId"
+        (saved)="onSaved($event)"></app-proceso-confiabilidad-create-dialog>
 </p-dialog>
