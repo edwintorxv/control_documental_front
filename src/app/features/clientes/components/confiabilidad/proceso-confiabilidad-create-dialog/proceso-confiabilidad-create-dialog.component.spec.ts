@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClienteConfiabilidadEmpleadosDialogComponent } from './cliente-confiabilidad-empleados-dialog.component';
+import { ClienteConfiabilidadEmpleadosDialogComponent } from './proceso-confiabilidad-create-dialog.component';
 
 describe('ClienteConfiabilidadEmpleadosDialogComponent', () => {
   let component: ClienteConfiabilidadEmpleadosDialogComponent;

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ClienteConfiabilidadEmpleadosTableComponent } from './features/clientes/components/confiabilidad/cliente-confiabilidad-empleados-table/cliente-confiabilidad-empleados-table.component';
+import { ProcesoConfiabilidadListComponent } from './features/clientes/components/confiabilidad/proceso-confiabilidad-list/proceso-confiabilidad-list.component';
 import { EmpleadoDocumentosTableComponent } from './features/empleados/components/documentos/empleado-documentos-table/empleado-documentos-table.component';
 import { EmpleadoExperienciaLaboralTableComponent } from './features/empleados/components/experiencia-laboral/empleado-experiencia-laboral-table/empleado-experiencia-laboral-table.component';
 import { EmpleadoFamiliaresTableComponent } from './features/empleados/components/familiares/empleado-familiares-table/empleado-familiares-table.component';
@@ -20,7 +20,7 @@ export const routes: Routes = [
       { path: 'empleados/:id/laboral', component: EmpleadoExperienciaLaboralTableComponent },
       { path: 'empleados/:id/documentos', component: EmpleadoDocumentosTableComponent },
       { path: 'clientes', component: ClienteListComponent },
-      { path: 'clientes/:id/confiabilidad', component: ClienteConfiabilidadEmpleadosTableComponent }
+      { path: 'clientes/:id/confiabilidad', component: ProcesoConfiabilidadListComponent }
     ]
   }
 ];

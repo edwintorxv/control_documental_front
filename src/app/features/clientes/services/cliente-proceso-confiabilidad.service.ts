@@ -37,6 +37,14 @@ export class clienteProcesoConfiabilidadService {
             )
     }
 
+    getProcesoPorId(idProceso: number): Observable<ClienteProcesoConfiabilidad | null> {
+        return this.http
+            .get<ClienteProcesoConfiabilidadResponse>(`${this.API_URL}/buscarProceso/${idProceso}`)
+            .pipe(
+                map(response => response.procesoConfiabilidadResponse.procesoConfiabilidad)
+            );
+    }
+
     updateProcesoConfiabildiad(idProceso: number, procesoConfiabilidad: ClienteProcesoConfiabilidad): Observable<ClienteProcesoConfiabilidad> {
         return this.http
             .put<ClienteProcesoConfiabilidad>(`${this.API_URL}/${idProceso}`, procesoConfiabilidad);

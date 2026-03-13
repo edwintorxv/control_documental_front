@@ -25,7 +25,7 @@ import { ClienteProcesoConfiabilidad } from '../../../models/cliente-proceso-con
 import { CustomValidators } from '../../../../../shared/validators/custom-validators';
 import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
 @Component({
-  selector: 'app-cliente-confiabilidad-empleados-dialog',
+  selector: 'app-proceso-confiabilidad-create-dialog',
   imports: [
     CommonModule,
     CardModule,
@@ -47,11 +47,11 @@ import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.
     ReactiveFormsModule
   ],
   providers: [ConfirmationService],
-  templateUrl: './cliente-confiabilidad-empleados-dialog.component.html',
-  styleUrl: './cliente-confiabilidad-empleados-dialog.component.scss'
+  templateUrl: './proceso-confiabilidad-create-dialog.component.html',
+  styleUrl: './proceso-confiabilidad-create-dialog.component.scss'
 })
 
-export class ClienteConfiabilidadEmpleadosDialogComponent implements OnInit {
+export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
 
   @Input() clienteId!: number;
 
@@ -116,13 +116,14 @@ export class ClienteConfiabilidadEmpleadosDialogComponent implements OnInit {
       telefono: formValue.telefono,
 
       fechaSolicitud: fechaFormateada,
+      fechaCreacion: fechaFormateada,
       ciudadMunicipio: { id: formValue.ciudadMunicipio },
       documentoMaestro: { id: formValue.documentoMaestro },
-      cliente: { id: this.clienteId }
+      cliente: { id: this.clienteId },
+      estadoProceso: 'C'
 
     };
 
-    console.log('Creado', procesoCofiabilidadData)
     this.saved.emit(procesoCofiabilidadData);
 
   }
