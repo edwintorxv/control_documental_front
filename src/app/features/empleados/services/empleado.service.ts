@@ -37,20 +37,11 @@ export class EmpleadoService {
 
     }
 
-    findByIdentificacion(identificacion: string): Observable<Empleado[]> {
-
-        return this.http
-            .get<EmpleadoResponseWraper>(`${this.API_URL}/empleado/${identificacion}`)
-            .pipe(
-                map(response => {
-                    const emp = response.empleadoResponse.empleado;
-                    return emp ? [emp] : [];
-                })
-            )
-
+    findByIdentificacion(identificacion: string): Observable<EmpleadoResponseWraper> {
+        return this.http.get<EmpleadoResponseWraper>(`${this.API_URL}/empleado/${identificacion}`);
     }
 
-     findByEmpleadoId(idEmpleado: number): Observable<Empleado[]> {
+    findByEmpleadoId(idEmpleado: number): Observable<Empleado[]> {
 
         return this.http
             .get<EmpleadoResponseWraper>(`${this.API_URL}/empleado/busquedaPorId/${idEmpleado}`)

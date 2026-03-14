@@ -14,7 +14,7 @@
                 <p-inputgroup-addon>
                     <i class="pi pi-user"></i>
                 </p-inputgroup-addon>
-                <input pInputText placeholder="Apellidos" maxlength="50" formControlName="apellido" /> <!--  -->
+                <input pInputText placeholder="Apellidos" maxlength="50" formControlName="apellido" /> 
             </p-inputgroup>
         </div>
 
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Dirección full width -->
-        <div class="col-9 ">
+        <div class="col-8">
             <p-inputgroup>
                 <p-inputgroup-addon>
                     <i class="pi pi-map"></i>
@@ -50,13 +50,19 @@
             </p-inputgroup>
         </div>
 
-        <div class="col-12 md:col-3">
+        <div class="col-12 md:col-4">
             <p-inputgroup>
                 <p-inputgroup-addon>
                     <i class="pi pi-phone"></i>
                 </p-inputgroup-addon>
                 <input pInputText placeholder="No. telefono" maxlength="10" formControlName="telefono" />
             </p-inputgroup>
+        </div>
+
+        <div class="col-12 md:col-7">
+            <p-select class="w-full" placeholder="Cliente" [showClear]="true" appendTo="body" optionLabel="nombre"
+                optionValue="id" [options]="lstClientes" formControlName="cliente">
+            </p-select>
         </div>
 
         <div class="col-12 md:col-5">

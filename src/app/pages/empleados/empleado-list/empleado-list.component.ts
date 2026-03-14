@@ -12,6 +12,7 @@ import { EmpleadoService } from '../../../features/empleados/services/empleado.s
 
 import { MessageService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
+import { ResponseHandlerUtil } from '../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-empleado-list',
@@ -73,22 +74,15 @@ export class EmpleadoListComponent implements OnInit {
     }
 
     this.empleadoService.findByIdentificacion(cedulaEmpleado).subscribe({
-      next: (data) => {
-        this.empleados = data ?? [];
+      next: (response) => {
 
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Consulta exitosa',
-          detail: 'Empleado encontrado'
-        });
+        const empleado = response.empleadoResponse.empleado;
+        this.empleados = empleado ? [empleado] : [];
+        
+        ResponseHandlerUtil.handleResponse(response, this.messageService)
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'No hay data para mostrar',
-          detail: 'Revise el numero de cedula'
-        });
-        console.error('Error en búsqueda:', err);
+        ResponseHandlerUtil.handleError(err, this.messageService);
       }
     });
   }

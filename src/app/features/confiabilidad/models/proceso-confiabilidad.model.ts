@@ -1,9 +1,9 @@
 import { DocumentoMaestro } from "../../../shared/models/documento-maestro.model";
-import { Cliente } from "./cliente.model";
-import { Concepto } from "./concepto.model";
-import { ProfesionalConfiabilidad } from "./profesional-confiabilidad.model";
+import { Cliente } from "../../clientes/models/cliente.model";
+import { Concepto } from "../../clientes/models/concepto.model";
+import { ProfesionalConfiabilidad } from "../../clientes/models/profesional-confiabilidad.model";
 
-export interface ClienteProcesoConfiabilidad {
+export interface ProcesoConfiabilidad {
 
     id: number;
     nombre: string;

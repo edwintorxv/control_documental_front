@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
@@ -7,9 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cliente-table',

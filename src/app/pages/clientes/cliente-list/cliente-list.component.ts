@@ -9,6 +9,7 @@ import { ClienteService } from '../../../features/clientes/services/cliente.serv
 import { Cliente } from '../../../features/clientes/models/cliente.model';
 import { ClienteFormDialogComponent } from '../../../features/clientes/components/cliente-dialog/cliente-form-dialog.component';
 import { MessageService } from 'primeng/api';
+import { ResponseHandlerUtil } from '../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-cliente-list',
@@ -46,14 +47,11 @@ export class ClienteListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    console.log('Carga clientes')
     this.cargarClientes();
 
   }
 
   cargarClientes() {
-    console.log('Entra al metodo')
     this.clienteService.getClientes()
       .subscribe({
         next: (response) => {
@@ -106,7 +104,7 @@ export class ClienteListComponent implements OnInit {
 
     if (!nitCliente) {
       this.messageService.add({
-        severity: 'info',
+        severity: 'warn',
         summary: 'No hay datos para buscar',
         detail: 'Ingrese un numero de NIT sin guiones ni espacios',
         life: 4000
@@ -116,20 +114,18 @@ export class ClienteListComponent implements OnInit {
 
     this.clienteService.getClientePorNit(nitCliente)
       .subscribe({
-        next: (data) => {
-          this.lstClientes = data ?? [];
+        next: (response) => {
+
+          const cliente = response.clienteResponse.cliente
+          this.lstClientes = cliente ? [cliente] : [];
+
+          ResponseHandlerUtil.handleResponse(response, this.messageService);
+
         },
         error: (err) => {
-          this.messageService.add({
-            severity: 'warn',
-            summary: err.error,
-            detail: 'Ingrese un numero de NIT sin guiones ni espacios',
-            life: 4000
-          });
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       });
   }
-
-
 
 }
