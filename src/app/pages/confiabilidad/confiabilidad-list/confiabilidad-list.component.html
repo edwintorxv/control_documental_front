@@ -1,0 +1,34 @@
+<h2>Listado procesos de confiabilidad</h2>
+
+<div class="table-header">
+
+    <p-button label="Crear proceso" icon="pi pi-plus" (click)="openFormCreateDialog()">
+    </p-button>
+
+    <div class="search-container">
+
+        <input type="text" pInputText maxlength="10" [formControl]="searchControl" placeholder="Buscar evaluado..." />
+
+        <p-button icon="pi pi-search" (click)="buscar()">
+        </p-button>
+
+        <p-button icon="pi pi-filter-slash" severity="secondary" (click)="limpiar()">
+        </p-button>
+    </div>
+
+</div>
+
+<app-proceso-confiabilidad-table [lstProcesos]="lstProcesos" (create)="openFormCreateDialog()"
+    (edit)="openFormEditDialog($event)"></app-proceso-confiabilidad-table>
+
+
+<p-dialog [header]="isEditMode ? 'Editar empleado' : 'Crear proceso'" [(visible)]="displayFormDialog" [modal]="true"
+    [style]="{ width: '50vw', maxWidth: '900px' }" [breakpoints]="{
+        '1200px': '60vw',
+        '960px': '75vw',
+        '640px': '95vw'}">
+
+    <app-proceso-confiabilidad-create-dialog (saved)="onEmpleadoSaved()">
+    </app-proceso-confiabilidad-create-dialog> <!-- [procesoConfiabilidad]="selectedProceso" [isEditMode]="isEditMode" " -->
+
+</p-dialog>

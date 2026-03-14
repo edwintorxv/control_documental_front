@@ -1,29 +1,34 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ProcesoConfiabilidad } from '../../models/proceso-confiabilidad.model';
+import { DocumentoMaestro } from '../../../../shared/models/documento-maestro.model';
+import { Departamento } from '../../../../shared/models/departamento.model';
+import { CiudadMunicipio } from '../../../../shared/models/ciudad-municipio.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
+import { DocumentoMaestroService } from '../../../../core/services/documento-maestro.service';
+import { MessageService } from 'primeng/api';
+import { DepartamentoService } from '../../../../core/services/departamento.service';
+import { CiudadMunicipioService } from '../../../../core/services/ciudad-municipio.service';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { ResponseHandlerUtil } from '../../../../core/utils/response-handler.util';
+import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DatePickerModule } from 'primeng/datepicker';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { FluidModule } from 'primeng/fluid';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
-import { CiudadMunicipioService } from '../../../../../core/services/ciudad-municipio.service';
-import { DepartamentoService } from '../../../../../core/services/departamento.service';
-import { DocumentoMaestroService } from '../../../../../core/services/documento-maestro.service';
-import { CiudadMunicipio } from '../../../../../shared/models/ciudad-municipio.model';
-import { Departamento } from '../../../../../shared/models/departamento.model';
-import { DocumentoMaestro } from '../../../../../shared/models/documento-maestro.model';
-import { ClienteProcesoConfiabilidad } from '../../../models/cliente-proceso-confiabilidad.model';
-import { CustomValidators } from '../../../../../shared/validators/custom-validators';
-import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DatePickerModule } from 'primeng/datepicker';
+import { FluidModule } from 'primeng/fluid';
+import { ClienteService } from '../../../clientes/services/cliente.service';
+import { Cliente } from '../../../clientes/models/cliente.model';
+import { ProcesoConfiabilidadService } from '../../services/proceso-confiabilidad.service';
+
+
 @Component({
   selector: 'app-proceso-confiabilidad-create-dialog',
   imports: [
@@ -35,7 +40,6 @@ import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.
     InputTextModule,
     ConfirmDialogModule,
     FloatLabelModule,
-    InputTextModule,
     FormsModule,
     InputGroupModule,
     InputGroupAddonModule,
@@ -43,26 +47,24 @@ import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.
     InputNumberModule,
     DatePickerModule,
     FluidModule,
-    ButtonModule,
     ReactiveFormsModule
   ],
-  providers: [ConfirmationService],
   templateUrl: './proceso-confiabilidad-create-dialog.component.html',
   styleUrl: './proceso-confiabilidad-create-dialog.component.scss'
 })
-
 export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
 
   @Input() clienteId!: number;
-
-  @Output() saved = new EventEmitter<ClienteProcesoConfiabilidad>();
+  @Output() saved = new EventEmitter<ProcesoConfiabilidad>();
   @Output() cancelled = new EventEmitter<void>();
 
-  private _procesoConfiabilidad?: ClienteProcesoConfiabilidad;
+
+  private _procesoConfiabilidad?: ProcesoConfiabilidad;
 
   lstDocumentoMaestro: DocumentoMaestro[] = [];
   lstDepartamento: Departamento[] = []
   lstCiudadMunicipio: CiudadMunicipio[] = [];
+  lstClientes: Cliente[] = [];
 
   formGroupConfiabilidad!: FormGroup;
 
@@ -71,13 +73,17 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
     private messageService: MessageService,
     private departamentoService: DepartamentoService,
     private ciudadMunicipioService: CiudadMunicipioService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private clienteService: ClienteService,
+    private procesoConfiabilidadService: ProcesoConfiabilidadService
   ) { }
+
 
   ngOnInit(): void {
     this.buildForm();
     this.loadDocumentoMaestro();
     this.loadDepartamento();
+    this.loadClientes();
   }
 
   buildForm(): void {
@@ -89,12 +95,16 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
       ciudadMunicipio: [null, [Validators.required]],
       direccion: [null, [Validators.required, Validators.maxLength(100), CustomValidators.direcciones]],
       telefono: [null, [Validators.required, Validators.maxLength(10), CustomValidators.soloNumeros]],
+      cliente: [null, [Validators.required]],
       documentoMaestro: [null, [Validators.required]]
     })
 
   }
 
   saveProcesoConfiabilidad(): void {
+
+    console.log('Entra a crear:');
+
 
     if (this.formGroupConfiabilidad.invalid) {
       this.formGroupConfiabilidad.markAllAsTouched();
@@ -104,7 +114,6 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
     const fecha = new Date();
     const fechaFormateada = fecha.toISOString().split('T')[0];
 
-    console.log(fechaFormateada);
 
     const formValue = this.formGroupConfiabilidad.getRawValue();
 
@@ -119,13 +128,26 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
       fechaCreacion: fechaFormateada,
       ciudadMunicipio: { id: formValue.ciudadMunicipio },
       documentoMaestro: { id: formValue.documentoMaestro },
-      cliente: { id: this.clienteId },
+      cliente: { id: formValue.cliente },
       estadoProceso: 'C'
 
     };
 
-    this.saved.emit(procesoCofiabilidadData);
+    this.crearProcesoConfiabilidad(procesoCofiabilidadData)
 
+  }
+
+  crearProcesoConfiabilidad(request: any) {
+
+    this.procesoConfiabilidadService.postProcesoCliente(request).subscribe({
+      next: (response) => {
+        ResponseHandlerUtil.handleResponse(response, this.messageService)
+        this.saved.emit();
+      },
+      error: (err) => {
+        ResponseHandlerUtil.handleError(err, this.messageService)
+      }
+    })
   }
 
   loadDocumentoMaestro() {
@@ -162,6 +184,14 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
           ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
+  }
+
+  loadClientes() {
+    this.clienteService.getClientes().subscribe({
+      next: (data) => {
+        this.lstClientes = data
+      }
+    })
   }
 
 }

@@ -68,6 +68,17 @@ export class SidebarComponent implements OnInit {
             routerLink: '/clientes'
           }
         ]
+      },
+      {
+        label: 'Confiabilidad',
+        icon: 'pi pi-address-book',
+        items: [
+          {
+            label: 'Listado procesos',
+            icon: 'pi pi-file-edit',
+            routerLink: '/confiabilidad'
+          }
+        ]
       }
     ]
 

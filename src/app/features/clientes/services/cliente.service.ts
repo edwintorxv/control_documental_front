@@ -32,16 +32,10 @@ export class ClienteService {
             .put(`${this.API_URL}/cliente/${idCliente}`, cliente)
     }
 
-    getClientePorNit(nitCliente: string): Observable<Cliente[]> {
+    getClientePorNit(nitCliente: string): Observable<ClienteResponse> {
 
         return this.http
             .get<ClienteResponse>(`${this.API_URL}/cliente/${nitCliente}`)
-            .pipe(
-                map(response => {
-                    const cliente = response.clienteResponse.cliente;
-                    return cliente ? [cliente] : [];
-                })
-            );
     }
 
 }
