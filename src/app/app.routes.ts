@@ -20,7 +20,6 @@ export const routes: Routes = [
       { path: 'empleados/:id/laboral', component: EmpleadoExperienciaLaboralTableComponent },
       { path: 'empleados/:id/documentos', component: EmpleadoDocumentosTableComponent },
       { path: 'clientes', component: ClienteListComponent },
-      //{ path: 'clientes/:id/confiabilidad', component: ProcesoConfiabilidadListComponent },
       { path: 'confiabilidad', component: ConfiabilidadListComponent },
     ]
   }

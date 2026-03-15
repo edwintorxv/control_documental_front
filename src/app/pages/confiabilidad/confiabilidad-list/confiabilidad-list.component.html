@@ -19,7 +19,7 @@
 </div>
 
 <app-proceso-confiabilidad-table [lstProcesos]="lstProcesos" (create)="openFormCreateDialog()"
-    (edit)="openFormEditDialog($event)"></app-proceso-confiabilidad-table>
+    (edit)="openFormEditDialog($event)" (update)="openUpdateDialog($event)"></app-proceso-confiabilidad-table>
 
 
 <p-dialog [header]="isEditMode ? 'Editar empleado' : 'Crear proceso'" [(visible)]="displayFormDialog" [modal]="true"
@@ -28,7 +28,21 @@
         '960px': '75vw',
         '640px': '95vw'}">
 
-    <app-proceso-confiabilidad-create-dialog (saved)="onEmpleadoSaved()">
-    </app-proceso-confiabilidad-create-dialog> <!-- [procesoConfiabilidad]="selectedProceso" [isEditMode]="isEditMode" " -->
+    <app-proceso-confiabilidad-create-dialog 
+    (saved)="onEmpleadoSaved()">
+    </app-proceso-confiabilidad-create-dialog>
+    
+</p-dialog>
+
+<p-dialog
+    header="Actualizar proceso"
+    [(visible)]="displayUpdateDialog"
+    [modal]="true"
+    [style]="{ width: '60vw', maxWidth: '900px' }">
+
+    <app-proceso-confiabilidad-update-dialog
+        [proceso]="selectedProceso"
+        (saved)="onProcesoUpdated()">
+    </app-proceso-confiabilidad-update-dialog>
 
 </p-dialog>

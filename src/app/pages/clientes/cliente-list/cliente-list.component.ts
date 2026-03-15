@@ -58,20 +58,7 @@ export class ClienteListComponent implements OnInit {
           this.lstClientes = response;
         },
         error: (err) => {
-          let mensaje = '';
-
-          if (err.status === 0) {
-            mensaje = 'No se puede conectar con el servidor';
-          } else {
-            mensaje = err.message;
-          }
-
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: mensaje,
-            life: 4000
-          });
+         ResponseHandlerUtil.handleResponse(err, this.messageService)
         }
       })
   }

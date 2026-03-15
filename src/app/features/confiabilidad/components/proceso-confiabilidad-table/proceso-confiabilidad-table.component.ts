@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProcesoConfiabilidad } from '../../models/proceso-confiabilidad.model';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TableModule } from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
-import { ToolbarModule } from 'primeng/toolbar';
-import { MenuModule } from 'primeng/menu';
-import { Dialog } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ProcesoConfiabilidad } from '../../models/proceso-confiabilidad.model';
 
 @Component({
   selector: 'app-proceso-confiabilidad-table',
@@ -27,8 +26,10 @@ import { CardModule } from 'primeng/card';
 export class ProcesoConfiabilidadListComponent {
 
   @Input() lstProcesos: ProcesoConfiabilidad[] = [];
+  @Input() searchControl!: FormControl
+  
   @Output() create = new EventEmitter<void>();
   @Output() edit = new EventEmitter<ProcesoConfiabilidad>();
-  @Input() searchControl!: FormControl
+  @Output() update = new EventEmitter<ProcesoConfiabilidad>();
 
 }

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ProcesoConfiabilidad } from '../models/proceso-confiabilidad.model';
 import { ProcesoConfiabilidadResponse } from '../models/proceso-confiabilidad.response.model';
-import { map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -45,14 +45,21 @@ export class ProcesoConfiabilidadService {
             );
     }
 
-    updateProcesoConfiabildiad(idProceso: number, procesoConfiabilidad: ProcesoConfiabilidad): Observable<ProcesoConfiabilidad> {
+    putProcesoConfiabildiad(idProceso: any, procesoConfiabilidad: ProcesoConfiabilidad): Observable<ProcesoConfiabilidad> {
         return this.http
-            .put<ProcesoConfiabilidad>(`${this.API_URL}/${idProceso}`, procesoConfiabilidad);
+            .put<ProcesoConfiabilidad>(`${this.API_URL}/actualizarProceso/${idProceso}`, procesoConfiabilidad);
     }
 
     getProcesosPorEvaluado(cedulaEvaluado: string): Observable<ProcesoConfiabilidadResponse> {
         return this.http
             .get<ProcesoConfiabilidadResponse>(`${this.API_URL}/buscarProcesoPorCedula/${cedulaEvaluado}`)
+    }
+
+    putUrlArchivo(idProceso: any, urlaArchivo: string) {
+        return this.http
+            .put(
+                `${this.API_URL}/actualizarUrlArchivo/${idProceso}?urlArchivo=${urlaArchivo}`, {}
+            )
     }
 
 }

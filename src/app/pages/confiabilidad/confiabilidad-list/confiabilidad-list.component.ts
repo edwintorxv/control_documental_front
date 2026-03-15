@@ -10,6 +10,7 @@ import { ProcesoConfiabilidad } from '../../../features/confiabilidad/models/pro
 import { ProcesoConfiabilidadService } from '../../../features/confiabilidad/services/proceso-confiabilidad.service';
 import { ProcesoConfiabilidadCreateDialogComponent } from '../../../features/confiabilidad/components/proceso-confiabilidad-create-dialog/proceso-confiabilidad-create-dialog.component';
 import { ProcesoConfiabilidadListComponent } from '../../../features/confiabilidad/components/proceso-confiabilidad-table/proceso-confiabilidad-table.component';
+import { ProcesoConfiabilidadUpdateDialogComponent } from '../../../features/confiabilidad/components/proceso-confiabilidad-update-dialog/proceso-confiabilidad-update-dialog.component';
 
 @Component({
   selector: 'app-confiabilidad-list',
@@ -21,20 +22,26 @@ import { ProcesoConfiabilidadListComponent } from '../../../features/confiabilid
     ReactiveFormsModule,
     InputTextModule,
     ProcesoConfiabilidadListComponent,
-    ProcesoConfiabilidadCreateDialogComponent
+    ProcesoConfiabilidadCreateDialogComponent,
+    ProcesoConfiabilidadUpdateDialogComponent
   ],
   templateUrl: './confiabilidad-list.component.html',
   styleUrl: './confiabilidad-list.component.scss'
 })
+
 export class ConfiabilidadListComponent implements OnInit {
 
   lstProcesos: ProcesoConfiabilidad[] = [];
   lstProcesosOriginal: ProcesoConfiabilidad[] = [];
-  searchControl = new FormControl('');
-  displayFormDialog: boolean = false;
-  selectedProceso?: ProcesoConfiabilidad;
-  isEditMode: boolean = false;
 
+  searchControl = new FormControl('');
+
+  displayFormDialog: boolean = false;
+  displayUpdateDialog: boolean = false;
+
+  selectedProceso?: ProcesoConfiabilidad;
+
+  isEditMode: boolean = false;
 
   constructor(
     private procesoConfiabilidadService: ProcesoConfiabilidadService,
@@ -49,13 +56,13 @@ export class ConfiabilidadListComponent implements OnInit {
 
     this.procesoConfiabilidadService.getProcesoPorEstado(['A', 'C']).subscribe({
       next: (data) => {
-        this.lstProcesos = data
-        this.lstProcesosOriginal = data
+        this.lstProcesos = data;
+        this.lstProcesosOriginal = data;
       },
       error: (error) => {
-        ResponseHandlerUtil.handleError(error, this.messageService)
+        ResponseHandlerUtil.handleError(error, this.messageService);
       }
-    })
+    });
 
   }
 
@@ -78,12 +85,15 @@ export class ConfiabilidadListComponent implements OnInit {
       next: (response) => {
 
         this.lstProcesos = response.procesoConfiabilidadResponse.lstProcesoConfiabilidad;
+
         ResponseHandlerUtil.handleResponse(response, this.messageService)
+
       },
       error: (err) => {
         ResponseHandlerUtil.handleError(err, this.messageService);
       }
     });
+
   }
 
   limpiar(): void {
@@ -103,9 +113,19 @@ export class ConfiabilidadListComponent implements OnInit {
     this.displayFormDialog = true;
   }
 
+  openUpdateDialog(proceso: ProcesoConfiabilidad) {
+    this.selectedProceso = proceso;
+    this.displayUpdateDialog = true;
+  }
+
   onEmpleadoSaved(): void {
     this.loadProcesos();
     this.displayFormDialog = false;
+  }
+
+  onProcesoUpdated() {
+    this.loadProcesos();
+    this.displayUpdateDialog = false;
   }
 
 }

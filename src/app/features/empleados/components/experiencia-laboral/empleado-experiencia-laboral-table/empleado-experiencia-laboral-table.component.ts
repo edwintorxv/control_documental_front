@@ -10,6 +10,7 @@ import { EmpleadoExperienciaLaboralService } from '../../../services/empleado-ex
 import { EmpleadoExperienciaLaboral } from '../../../models/empleado-experiencia-laboral.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { EmpleadoExperienciaLaboralDialogComponent } from '../empleado-experiencia-laboral-dialog/empleado-experiencia-laboral-dialog.component';
+import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-empleado-experiencia-laboral-table',
@@ -52,26 +53,10 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
   loadExperienciaLaboral() {
     this.empleadoExperienciaLaboralService.getExperienciaLaboral(this.empleadoId).subscribe({
       next: (respuesta) => {
-        if (respuesta.metadata && respuesta.metadata.length > 0) {
-          const metaData = respuesta.metadata[0];
-          if (metaData.codigo !== '00') {
-            this.messageService.add({
-              severity: 'warn',
-              summary: metaData.tipo,
-              detail: metaData.descripcion,
-              life: 4000
-            });
-          }
-        }
         this.empleadoExperienciaLaboral = respuesta.empleadoLaboralResponse.lstEmpleadoLaboral;
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudieron cargar los datos',
-          life: 4000
-        });
+        ResponseHandlerUtil.handleError(err, this.messageService)
       }
     });
   }
@@ -96,42 +81,25 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
       // Actualizar
       this.empleadoExperienciaLaboralService.putExperienciaLaboral(this.laboralEdit.id!, experienciaLaboralData).subscribe({
         next: (response) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Actualizado',
-            detail: 'Experiencia actualizada correctamente'
-          });
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
           this.loadExperienciaLaboral();
           this.onDialogHide();
         },
-        error: (err) => this.handleError(err)
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
       });
     } else {
       // Crear
       this.empleadoExperienciaLaboralService.postExperienciaLaboral(experienciaLaboralData).subscribe({
         next: (response) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Creado',
-            detail: 'Experiencia creada correctamente',
-            life: 4000
-          });
-
-          this.loadExperienciaLaboral(); // ✅ Recargar
-          this.onDialogHide();
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
         },
-        error: (err) => this.handleError(err)
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
       });
     }
-  }
-
-  handleError(err: any) {
-    const metadata = err.error?.metadata?.[0];
-    this.messageService.add({
-      severity: 'error',
-      summary: metadata?.tipo || 'Error',
-      detail: metadata?.descripcion || 'Ocurrió un error inesperado'
-    });
   }
 
   confirmDelete(experienciaLaboral: EmpleadoExperienciaLaboral) {
@@ -157,15 +125,13 @@ export class EmpleadoExperienciaLaboralTableComponent implements OnInit {
   deleteExperienciaLaboral(id: number) {
     this.empleadoExperienciaLaboralService.deleteExperienciaLaboral(id).subscribe({
       next: (response) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Registro eliminado',
-          detail: 'Se ha eliminado el registro',
-          life: 4000
-        });
+
+        ResponseHandlerUtil.handleResponse(response, this.messageService)
         this.loadExperienciaLaboral();
       },
-      error: (err) => this.handleError(err)
+      error: (err) => {
+        ResponseHandlerUtil.handleError(err, this.messageService)
+      }
     });
   }
 

@@ -27,6 +27,7 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { EstadoCivilService } from '../../services/estado-civil.service';
 import { EstadoService } from '../../services/estado.service';
 import { NivelAcademicoService } from '../../services/nivel-academico.service';
+import { ResponseHandlerUtil } from '../../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-empleado-form-dialog',
@@ -109,7 +110,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
 
     if (!this.empleado) {
       this.empleadoForm.reset();
-      this.empleadoForm.get('numeroIdentificacion')?.enable(); // 👈 modo creación
+      this.empleadoForm.get('numeroIdentificacion')?.enable();
     }
 
     // Si cambia a modo crear
@@ -134,7 +135,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
         this.departamentos = data;
       },
       error: (err) => {
-        console.log('Error cargando los departamentos', err);
+        ResponseHandlerUtil.handleError(err, this.messageService)
       }
     });
 
@@ -147,7 +148,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
           this.ciudadMunicipio = data;
         },
         error: (err) => {
-          console.log('Error consultando ciudadMunicipio', err);
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }
@@ -159,7 +160,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
           this.documentoMaestro = data;
         },
         error: (err) => {
-          console.log('Error al consultar documento Maestro', err)
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }
@@ -171,7 +172,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
           this.estadoCivil = data;
         },
         error: (err) => {
-          console.log('Error al consultar estado civil', err)
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }
@@ -183,7 +184,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
           this.cargo = data;
         },
         error: (err) => {
-          console.log('Error al cargar Cargos', err)
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }
@@ -195,7 +196,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
           this.estado = data
         },
         error: (err) => {
-          console.log('Error al cargar Estado', err)
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }
@@ -207,7 +208,7 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
           this.nivelAcademico = data;
         },
         error: (err) => {
-          console.log('Error al cargar Niel academico', err)
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }
@@ -271,58 +272,27 @@ export class EmpleadoFormDialogComponent implements OnChanges, OnInit {
   private createEmpleado(request: any) {
     this.empleadoService.postEmpleado(request)
       .subscribe({
-        next: (response) => this.handleResponse(response),
-        error: (error) => this.handleError(error)
+        next: (response) => {
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
+
+        },
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
       });
   }
 
   private updateEmpleado(request: any) {
     this.empleadoService.putEmpleado(this.empleado!.id, request)
       .subscribe({
-        next: (response) => this.handleResponse(response),
-        error: (error) => this.handleError(error)
+        next: (response) => {
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
+        },
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
+
       });
-  }
-
-  private handleError(error: any) {
-    if (error.error && error.error.metadata && error.error.metadata.length > 0) {
-      const metaData = error.error.metadata[0];
-      this.messageService.add({
-        severity: 'error',
-        summary: metaData.tipo || 'Error',
-        detail: metaData.descripcion || 'Ocurrió un error'
-      });
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error en la comunicación con el servidor'
-      });
-    }
-  }
-
-  private handleResponse(response: any) {
-
-    const metaData = response.metadata?.[0];
-
-    if (metaData?.codigo === "00") {
-
-      this.messageService.add({
-        severity: 'success',
-        summary: metaData.tipo,
-        detail: metaData.descripcion
-      });
-
-      this.saved.emit();
-
-    } else {
-
-      this.messageService.add({
-        severity: 'warn',
-        summary: metaData?.tipo,
-        detail: metaData?.descripcion
-      });
-    }
   }
 
   private setFormForEdit(): void {

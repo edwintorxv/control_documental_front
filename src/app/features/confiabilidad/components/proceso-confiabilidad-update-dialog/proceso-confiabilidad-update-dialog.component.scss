@@ -1,0 +1,49 @@
+.proceso-card {
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 10px;
+}
+
+.proceso-grid {
+    align-items: stretch;
+}
+
+.info-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 18px;
+    border-radius: 10px;
+
+    background: linear-gradient(145deg,#f8fafc,#eef2f7);
+
+    transition: all 0.25s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.info-icon {
+    font-size: 28px;
+    color: #3b82f6;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}

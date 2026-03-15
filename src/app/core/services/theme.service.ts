@@ -10,12 +10,6 @@ export class ThemeService {
     constructor(private primeng: PrimeNG) { }
 
     setTheme(mode: 'light' | 'dark') {
-
-        console.log('modo seleccionado:', mode);
-
-        console.log('modo seleccionado:', mode);
-
-        // 🔥 SOLO agregamos o quitamos la clase dark
         if (mode === 'dark') {
             document.documentElement.classList.add('dark');
         } else {

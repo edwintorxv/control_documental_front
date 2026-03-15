@@ -15,6 +15,7 @@ import { CustomValidators } from '../../../../../shared/validators/custom-valida
 import { EmpleadoFamiliar } from '../../../models/empleado-familiar.model';
 import { TipoFamiliar } from '../../../models/tipo-familiar.model';
 import { TipoFamiliarService } from '../../../services/tipo-familiar.service';
+import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-empleado-familiares-dialog',
@@ -105,22 +106,18 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
   loadTiposFamiliares(): void {
     this.tipoFamiliarService.getTipoFamiliar().subscribe({
       next: (data) => this.tiposFamiliares = data,
-      error: () => this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'No se pudieron cargar los tipos de familiar'
-      })
+      error: (err) => {
+        ResponseHandlerUtil.handleError(err, this.messageService)
+      }
     });
   }
 
   loadDocumentos(): void {
     this.documentoMaestroService.getDocumentoMaestroById([1]).subscribe({
       next: (data) => this.documentoMaestro = data,
-      error: () => this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'No se pudieron cargar los documentos'
-      })
+      error: (err) => {
+        ResponseHandlerUtil.handleError(err, this.messageService)
+      }
     });
   }
 
@@ -141,7 +138,7 @@ export class EmpleadoFamiliaresDialogComponent implements OnInit {
       tipoFamiliar: { id: formValue.tipoFamiliar },
       empleado: { id: this.empleadoId }
     };
-    
+
     if (this.familiar && this.familiar.id) {
       familiarData.id = this.familiar.id;
     }
