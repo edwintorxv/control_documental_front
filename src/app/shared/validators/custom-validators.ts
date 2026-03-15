@@ -17,6 +17,13 @@ export class CustomValidators {
         return regex.test(control.value) ? null : { soloLetras: true }
     }
 
+    static ampliacion(control: AbstractControl): ValidationErrors | null {
+        if (!control.value) return null
+
+        const regex = /^[a-zA-Z0-9\s.,!?;:'"()\[\]{}¡¿\-_]+$/;
+        return regex.test(control.value) ? null : { ampliacion: true }
+    }
+
     static direcciones(control: AbstractControl): ValidationErrors | null {
         if (!control.value) return null
 

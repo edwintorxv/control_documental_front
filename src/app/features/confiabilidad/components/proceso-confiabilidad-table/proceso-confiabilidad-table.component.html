@@ -4,10 +4,12 @@
 
         <ng-template #header pTemplate="header">
             <tr>
-                <th pSortableColumn="cliente.nombre" style="min-width:250px">Cliente <p-sortIcon field="cliente.nombre" /></th>
+                <th pSortableColumn="cliente.nombre" style="min-width:250px">Cliente <p-sortIcon
+                        field="cliente.nombre" /></th>
                 <th pSortableColumn="nombre" style="min-width:250px">Nombres <p-sortIcon field="nombre" /></th>
                 <th pSortableColumn="apellido" style="min-width:250px">Apellidos <p-sortIcon field="apellido" /></th>
-                <th pSortableColumn="identificacion" style="min-width:250px">Identificacion <p-sortIcon field="identificacion" />
+                <th pSortableColumn="identificacion" style="min-width:250px">Identificacion <p-sortIcon
+                        field="identificacion" />
                 </th>
                 <th pSortableColumn="documentoMaestro.nombre" style="min-width:250px">Proceso <p-sortIcon
                         field="documentoMaestro.nombre" /></th>
@@ -38,7 +40,8 @@
                 <td>{{proceso.telefono }}</td>
                 <td>{{proceso.fechaSolicitud}}</td>
                 <td>
-                    <p-button icon="pi pi-cloud-upload"></p-button>
+                    <p-button icon="pi pi-cloud-upload" (click)="update.emit(proceso)">
+                    </p-button>
                 </td>
             </tr>
 

@@ -17,6 +17,7 @@ import { EmpleadoService } from '../../../services/empleado.service';
 import { Empleado } from '../../../models/empleado.model';
 import { PdfViewerComponent } from '../../../../../shared/components/pdf-viewer/pdf-viewer.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-empleado-documentos-table',
@@ -71,26 +72,10 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
   loadDocumentosEmpleado() {
     this.empleadoDocumentoService.getEmpleadoDocumento(this.empleadoId).subscribe({
       next: (response) => {
-        if (response.metadata && response.metadata.length > 0) {
-          const metaData = response.metadata[0];
-          if (metaData.codigo !== "00") {
-            this.messageService.add({
-              severity: 'warn',
-              summary: metaData.tipo,
-              detail: metaData.descripcion,
-              life: 4000
-            });
-          }
-        }
         this.empleadoDocumento = response.empleadoDocumentoResponse.lstEmpleadoDocumento;
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'warn',
-          summary: err.error.metaData.descripcion,
-          detail: 'Aún no se han creado documentos para este empleado',
-          life: 4000
-        });
+        ResponseHandlerUtil.handleError(err, this.messageService)
       }
     })
   }
@@ -101,12 +86,7 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
         this.cedulaEmpleado = response[0].numeroIdentificacion;
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'warn',
-          summary: err.error.metaData.descripcion,
-          detail: 'El empleado no tiene numero de cedula',
-          life: 4000
-        });
+        ResponseHandlerUtil.handleError(err, this.messageService)
       }
     })
   }
@@ -133,13 +113,7 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
                 this.almacenamientoService.cargarArchivo(ruta, archivo)
                   .subscribe({
                     next: (cargaArchivo: any) => {
-                      const metaDataArchivo = cargaArchivo.metadata[0];
-                      this.messageService.add({
-                        severity: 'info',
-                        summary: metaDataArchivo.tipo,
-                        detail: metaDataArchivo.descripcion,
-                        life: 4000
-                      });
+                      ResponseHandlerUtil.handleResponse(cargaArchivo, this.messageService)
                       const rutaArchivo = `${ruta}/${archivo.name}`.replace(/\\/g, '/');
                       this.empleadoDocumentoService
                         .editarRutaDocumento(idDocumento, rutaArchivo)
@@ -149,22 +123,22 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
                             this.onDialogHide();
                           },
                           error: (err) => {
-                            this.handleError(err);
+                            ResponseHandlerUtil.handleError(err, this.messageService)
                           }
                         });
                     },
                     error: (err) => {
-                      this.handleError(err);
+                      ResponseHandlerUtil.handleError(err, this.messageService)
                     }
                   });
               },
               error: (err) => {
-                this.handleError(err);
+                ResponseHandlerUtil.handleError(err, this.messageService)
               }
             });
         },
         error: (err) => {
-          this.handleError(err);
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       });
 
@@ -200,18 +174,9 @@ export class EmpleadoDocumentosTableComponent implements OnInit {
         });
         this.loadDocumentosEmpleado();
       },
-      error: (err) => this.handleError(err)
-    });
-  }
-
-  handleError(err: any) {
-
-    const metadata = err.error?.metadata?.[0];
-    this.messageService.add({
-      severity: 'error',
-      summary: metadata?.tipo || 'Error',
-      detail: metadata?.descripcion || 'Ocurrió un error inesperado'
-
+      error: (err) => {
+        ResponseHandlerUtil.handleError(err, this.messageService)
+      }
     });
   }
 

@@ -20,6 +20,7 @@ import { EstadoCivilService } from '../../../empleados/services/estado-civil.ser
 import { Cliente } from '../../models/cliente.model';
 import { ClienteService } from '../../services/cliente.service';
 import { EstadoService } from '../../../empleados/services/estado.service';
+import { ResponseHandlerUtil } from '../../../../core/utils/response-handler.util';
 
 @Component({
   selector: 'app-cliente-form-dialog',
@@ -141,21 +142,8 @@ export class ClienteFormDialogComponent implements OnInit, OnChanges {
         next: (departamentos) => {
           this.lstDepartamentos = departamentos
         },
-        error: (err) => {
-          let mensaje = '';
-
-          if (err.status === 0) {
-            mensaje = 'No se puede conectar con el servidor';
-          } else {
-            mensaje = err.message;
-          }
-
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: mensaje,
-            life: 4000
-          });
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
         }
       })
   }
@@ -165,8 +153,8 @@ export class ClienteFormDialogComponent implements OnInit, OnChanges {
       next: (data) => {
         this.lstCiudadMunicipio = data;
       },
-      error: (err) => {
-        console.log('Error consultando ciudadMunicipio', err);
+      error: (error) => {
+        ResponseHandlerUtil.handleError(error, this.messageService)
       }
     })
   }
@@ -176,21 +164,8 @@ export class ClienteFormDialogComponent implements OnInit, OnChanges {
       next: (estados) => {
         this.lstEstado = estados;
       },
-      error: (err) => {
-        let mensaje = '';
-
-        if (err.status === 0) {
-          mensaje = 'No se puede conectar con el servidor';
-        } else {
-          mensaje = err.message;
-        }
-
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: mensaje,
-          life: 4000
-        });
+      error: (error) => {
+        ResponseHandlerUtil.handleError(error, this.messageService)
       }
     })
   }
@@ -226,58 +201,25 @@ export class ClienteFormDialogComponent implements OnInit, OnChanges {
   private createCliente(request: any) {
     this.clienteService.postCliente(request)
       .subscribe({
-        next: (response) => this.handleResponse(response),
-        error: (error) => this.handleError(error)
+        next: (response) => {
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
+        },
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
       });
   }
 
   private updateCliente(request: any) {
     this.clienteService.putCliente(this.cliente!.id, request)
       .subscribe({
-        next: (response) => this.handleResponse(response),
-        error: (error) => this.handleError(error)
+        next: (response) => {
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
+        },
+        error: (error) => {
+          ResponseHandlerUtil.handleError(error, this.messageService)
+        }
       });
-  }
-
-  private handleError(error: any) {
-    if (error.error && error.error.metadata && error.error.metadata.length > 0) {
-      const metaData = error.error.metadata[0];
-      this.messageService.add({
-        severity: 'error',
-        summary: metaData.tipo || 'Error',
-        detail: metaData.descripcion || 'Ocurrió un error'
-      });
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error en la comunicación con el servidor'
-      });
-    }
-  }
-
-  private handleResponse(response: any) {
-
-    const metaData = response.metadata?.[0];
-
-    if (metaData?.codigo === "00") {
-
-      this.messageService.add({
-        severity: 'success',
-        summary: metaData.tipo,
-        detail: metaData.descripcion
-      });
-
-      this.saved.emit();
-
-    } else {
-
-      this.messageService.add({
-        severity: 'warn',
-        summary: metaData?.tipo,
-        detail: metaData?.descripcion
-      });
-    }
   }
 
 }

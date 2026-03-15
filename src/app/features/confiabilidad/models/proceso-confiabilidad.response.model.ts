@@ -6,7 +6,6 @@ export interface ProcesoConfiabilidadResponse {
     procesoConfiabilidadResponse: {
         lstProcesoConfiabilidad: ProcesoConfiabilidad[];
         procesoConfiabilidad: ProcesoConfiabilidad | null;
-
     }
 
 }

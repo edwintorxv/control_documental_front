@@ -56,11 +56,4 @@ export class ClienteTableComponent {
     }
   }
 
-  abrirConfiabilidad() {
-    this.visible = false;
-    if (this.selectedCliente?.id) {
-      this.router.navigate(['/clientes', this.selectedCliente?.id, 'confiabilidad'])
-    }
-  }
-
 }

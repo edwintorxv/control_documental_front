@@ -15,6 +15,7 @@ import { DocumentoMaestro } from '../../../../../shared/models/documento-maestro
 import { FileUpload } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { CustomValidators } from '../../../../../shared/validators/custom-validators';
+import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -91,7 +92,6 @@ export class EmpleadoDocumentosDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.buildForm();
     this.loadDocumentoMaestro();
 
     if (this.empleadoDocumento) {
@@ -131,7 +131,7 @@ export class EmpleadoDocumentosDialogComponent implements OnInit {
           this.documentoMaestro = data;
         },
         error: (err) => {
-          console.log('Error al consultar documento Maestro', err)
+          ResponseHandlerUtil.handleError(err, this.messageService)
         }
       })
   }

@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { EmpleadoFamiliar } from '../../../models/empleado-familiar.model';
 import { EmpleadoFamiliarService } from '../../../services/empleado-familiar.service';
 import { EmpleadoFamiliaresDialogComponent } from '../empleado-familiares-dialog/empleado-familiares-dialog.component';
+import { ResponseHandlerUtil } from '../../../../../core/utils/response-handler.util';
 
 
 
@@ -76,16 +77,13 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
   // método que llama al servicio
   deleteFamiliar(id: number) {
     this.empleadoFamiliarService.delete(id).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Registro eliminado',
-          detail: 'Se ha eliminado el registro del familiar',
-          life: 4000
-        });
+      next: (response) => {
+        ResponseHandlerUtil.handleResponse(response, this.messageService)
         this.loadFamiliares();
       },
-      error: (err) => this.handleError(err)
+      error: (err) => {
+        ResponseHandlerUtil.handleError(err, this.messageService)
+      }
     });
   }
 
@@ -95,22 +93,7 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
         this.empleadoFamiliares = data;
       },
       error: (err) => {
-        const metadata = err.error?.metadata?.[0];
-        if (metadata) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: metadata.descripcion,
-            detail: 'Aún no se han creado familiares para este empleado',
-            life: 4000
-          });
-        } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudieron cargar los familiares',
-            life: 4000
-          });
-        }
+        ResponseHandlerUtil.handleError(err, this.messageService)
       }
     });
   }
@@ -135,47 +118,32 @@ export class EmpleadoFamiliaresTableComponent implements OnInit {
     if (this.familiarEdit) {
       // Actualizar
       this.empleadoFamiliarService.update(this.familiarEdit.id!, familiarData).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Actualizado',
-            detail: 'Familiar actualizado correctamente',
-            life: 4000
-          });
+        next: (response) => {
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
           this.loadFamiliares();
           this.onDialogHide();
         },
-        error: (err) => this.handleError(err)
+        error: (err) => {
+          ResponseHandlerUtil.handleError(err, this.messageService)
+        }
       });
     } else {
       // Crear
       this.empleadoFamiliarService.postFamiliar(familiarData).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Creado',
-            detail: 'Familiar creado correctamente',
-            life: 4000
-          });
+        next: (response) => {
+          ResponseHandlerUtil.handleResponse(response, this.messageService)
           this.loadFamiliares();
           this.onDialogHide();
         },
-        error: (err) => this.handleError(err)
+        error: (err) => {
+          ResponseHandlerUtil.handleError(err, this.messageService)
+        }
       });
     }
   }
 
   onCancelled() {
     this.onDialogHide();
-  }
-
-  handleError(err: any) {
-    const metadata = err.error?.metadata?.[0];
-    this.messageService.add({
-      severity: 'error',
-      summary: metadata?.tipo || 'Error',
-      detail: metadata?.descripcion || 'Ocurrió un error'
-    });
   }
 
   volver(): void {

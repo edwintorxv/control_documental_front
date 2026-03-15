@@ -1,31 +1,31 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProcesoConfiabilidad } from '../../models/proceso-confiabilidad.model';
-import { DocumentoMaestro } from '../../../../shared/models/documento-maestro.model';
-import { Departamento } from '../../../../shared/models/departamento.model';
-import { CiudadMunicipio } from '../../../../shared/models/ciudad-municipio.model';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DocumentoMaestroService } from '../../../../core/services/documento-maestro.service';
-import { MessageService } from 'primeng/api';
-import { DepartamentoService } from '../../../../core/services/departamento.service';
-import { CiudadMunicipioService } from '../../../../core/services/ciudad-municipio.service';
-import { CustomValidators } from '../../../../shared/validators/custom-validators';
-import { ResponseHandlerUtil } from '../../../../core/utils/response-handler.util';
 import { CommonModule } from '@angular/common';
-import { CardModule } from 'primeng/card';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
+import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DatePickerModule } from 'primeng/datepicker';
+import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { FluidModule } from 'primeng/fluid';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DatePickerModule } from 'primeng/datepicker';
-import { FluidModule } from 'primeng/fluid';
-import { ClienteService } from '../../../clientes/services/cliente.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { TableModule } from 'primeng/table';
+import { CiudadMunicipioService } from '../../../../core/services/ciudad-municipio.service';
+import { DepartamentoService } from '../../../../core/services/departamento.service';
+import { DocumentoMaestroService } from '../../../../core/services/documento-maestro.service';
+import { ResponseHandlerUtil } from '../../../../core/utils/response-handler.util';
+import { CiudadMunicipio } from '../../../../shared/models/ciudad-municipio.model';
+import { Departamento } from '../../../../shared/models/departamento.model';
+import { DocumentoMaestro } from '../../../../shared/models/documento-maestro.model';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { Cliente } from '../../../clientes/models/cliente.model';
+import { ClienteService } from '../../../clientes/services/cliente.service';
+import { ProcesoConfiabilidad } from '../../models/proceso-confiabilidad.model';
 import { ProcesoConfiabilidadService } from '../../services/proceso-confiabilidad.service';
 
 
@@ -57,9 +57,10 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
   @Input() clienteId!: number;
   @Output() saved = new EventEmitter<ProcesoConfiabilidad>();
   @Output() cancelled = new EventEmitter<void>();
+  @Output() update = new EventEmitter<any>();
 
 
-  private _procesoConfiabilidad?: ProcesoConfiabilidad;
+  //private _procesoConfiabilidad?: ProcesoConfiabilidad;
 
   lstDocumentoMaestro: DocumentoMaestro[] = [];
   lstDepartamento: Departamento[] = []
@@ -103,9 +104,6 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
 
   saveProcesoConfiabilidad(): void {
 
-    console.log('Entra a crear:');
-
-
     if (this.formGroupConfiabilidad.invalid) {
       this.formGroupConfiabilidad.markAllAsTouched();
       return;
@@ -113,8 +111,6 @@ export class ProcesoConfiabilidadCreateDialogComponent implements OnInit {
 
     const fecha = new Date();
     const fechaFormateada = fecha.toISOString().split('T')[0];
-
-
     const formValue = this.formGroupConfiabilidad.getRawValue();
 
     const procesoCofiabilidadData: any = {
